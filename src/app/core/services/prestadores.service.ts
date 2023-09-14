@@ -52,6 +52,7 @@ export class PrestadoresService {
       //Utilizamos un Promise all para asegurarnos de que el código no avanza hasta que todas las promesas se cumplan
       Promise.all(this.arregloDePromesas)
       .then(resultados => {
+
         //Nos retorna un arreglo con las respuestas de las promesas
         //Procedemos a iterar para trabajar con cada resultado y obtener el o los path que queremos guardar
         for( let resultado of resultados) {
@@ -60,18 +61,31 @@ export class PrestadoresService {
           // console.log(fullPath);
           prestador.pathImages.push(fullPath); //Guardamos los Paths en nuestro arreglo pathImages
         }
+
+        //? CARGA DE DATOS A FIRESTORE
+        //Creamos una referencia a la colleción
+        const prestadorRef = collection(this.firestore, 'prestadores'); // Servicio y nombre de la colección
+        //Añadimos en un documento la referencia y los datos que lo componen
+        return addDoc(prestadorRef, prestador); // Retorna una Promesa
+
       })
       .catch(error => {
         console.log(error);
-      });
+      }); //? Fin del Promise.all
+
+    } else {
+
+      //? CARGA DE DATOS A FIRESTORE
+      //Creamos una referencia a la colleción
+      const prestadorRef = collection(this.firestore, 'prestadores'); // Servicio y nombre de la colección
+      //Añadimos en un documento la referencia y los datos que lo componen
+      return addDoc(prestadorRef, prestador); // Retorna una Promesa
 
     } //? -> Fin de la validación para carga de imágenes
 
-    //? CARGA DE DATOS A FIRESTORE - YA SEA QUE LLEVE PATHS DE IMÁGENES O NO
-    //Creamos una referencia a la colleción
-    const prestadorRef = collection(this.firestore, 'prestadores'); // Servicio y nombre de la colección
-    //Añadimos en un documento la referencia y los datos que lo componen
-    return addDoc(prestadorRef, prestador); // Retorna una Promesa
+    //? Código ChatGpt para solucionar return
+    // Añadimos una declaración de retorno al final de la función
+    return Promise.resolve(); // Puedes utilizar cualquier promesa vacía aquí
 
   } //? Fin método agregar Prestador
 
