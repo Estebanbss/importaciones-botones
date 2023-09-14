@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, addDoc } from '@angular/fire/firestore';
-import { Storage } from '@angular/fire/storage';
+import { Storage, ref, uploadBytes } from '@angular/fire/storage';
 
 
 @Injectable({
@@ -19,31 +19,51 @@ export class PrestadoresService {
       this.arregloDePromesas = [];
     }
 
-  //Método para generar los empleados e insertarlos en la base de datos
+  //? Método para generar los empleados e insertarlos en la base de datos
   //Create - C
   agregarPrestador(prestador: any, files: any): Promise<any> {
 
-    //? -> Deberíamos ejecutar la carga de archivos antes de guardar los datos en la BD para que se guarde el arreglo de paths de la Imágenes de una vez en Firestore.
+    // console.log(prestador.pathImages.length);
+    // console.log(prestador.pathImages);
+
+    //? -> Deberíamos ejecutar la carga de archivos antes de guardar los datos en la BD para que se guarde el arreglo de paths de las Imágenes de una vez en Firestore.
     //Hacer una validación para ejecutar el código si hay Archivos para cargar, de otra forma no es necesario
 
     if(!(files.length === 0)) {
-      // console.log('Exísten archivos a cargar');
+      console.log('Exísten archivos a cargar');
 
       //Creamos una referencia al sitio de firebase
-      // En la referencia se coloca el servicio y el path donde queremos guardar, aún si el path no exíste se puede declarar
+      //En la referencia se coloca el servicio y el path donde queremos guardar, aún si el path no exíste se puede declarar
 
-      // //? Creamos una forma para cargar todo el arreglo
-      // //Utilizamos un ciclo for para recorrer el arreglo e insertar archivo por archivo adquiriendo su referencia
-      // for(let file of files) {
+      //? Creamos una forma para cargar todo el arreglo
+      //Utilizamos un ciclo for para recorrer el arreglo e insertar archivo por archivo adquiriendo su referencia
+      for(let file of files) {
 
-      //   //Creamos la referencia para guardar
-      //   const imgRef = ref(this.storage, `prestadoresStorage/${file.name}`);
+        //Creamos la referencia para guardar en Storage
+        const imgRef = ref(this.storage, `prestadoresStorage/${file.name}`);
 
-      //   //Creamos un arreglo de promesas con lo que nos devuelve el método uploadBytes
-      //   this.arregloDePromesas.push(uploadBytes(imgRef, file)); //Método para subir los archivos y retorna Promesas
+        //? Procedemos a insertar las imágenes una a una en el Storage con el método uploadBytes y guardamos las respuestas en un arreglo de Promesas
+        //Creamos un arreglo de promesas con lo que nos devuelve el método uploadBytes
+        this.arregloDePromesas.push(uploadBytes(imgRef, file)); //Método para subir los archivos y retorna Promesas
 
+      } //Fin del for
 
-      // } //Fin del for
+      //? Necesitamos los datos que dan las respuestas a las promesas de la carga de Imágenes, por eso gestionamos todo con un Promise.all para obtenerlas
+      //Utilizamos un Promise all para asegurarnos de que el código no avanza hasta que todas las promesas se cumplan
+      Promise.all(this.arregloDePromesas)
+      .then(resultados => {
+        //Nos retorna un arreglo con las respuestas de las promesas
+        //Procedemos a iterar para trabajar con cada resultado y obtener el o los path que queremos guardar
+        for( let resultado of resultados) {
+          // console.log(resultado);
+          const fullPath = resultado.metadata.fullPath;
+          // console.log(fullPath);
+          prestador.pathImages.push(fullPath); //Guardamos los Paths en nuestro arreglo pathImages
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
 
     } //? -> Fin de la validación para carga de imágenes
 
@@ -52,7 +72,8 @@ export class PrestadoresService {
     const prestadorRef = collection(this.firestore, 'prestadores'); // Servicio y nombre de la colección
     //Añadimos en un documento la referencia y los datos que lo componen
     return addDoc(prestadorRef, prestador); // Retorna una Promesa
-  }
+
+  } //? Fin método agregar Prestador
 
 
 }
