@@ -13,7 +13,7 @@ export class PrestadoresService {
   //Inyección de servicios Firebase
   constructor(
     private firestore: Firestore, //Inyectamos el servicio de Firestore
-    private storage: Storage
+    private storage: Storage //Inyectamos el servicio de Storage
     ) {
       //Aquí inicializamos nuestras propiedades de la clase
       this.arregloDePromesas = [];
