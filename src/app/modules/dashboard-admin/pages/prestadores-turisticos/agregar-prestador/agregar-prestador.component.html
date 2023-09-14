@@ -1,0 +1,111 @@
+<!-- Contenedor -->
+<div class="container mx-auto">
+  <div class="bg-white rounded-lg shadow-lg mt-4">
+    <div class="p-11">
+      <!-- CONTENIDO -->
+      <!-- Nuestro título -->
+      <h3 class="text-3xl text-center mb-4">Agregar Prestador Turistico</h3>
+      <!-- Importante poner el anuncio sólo cuando el form fue enviado y es inválido en caso de que no se llenen todos los campos -->
+      <span *ngIf="submitted && createPrestador.invalid" class="block bg-red-500 text-white py-2 rounded text-center w-full">TODOS LOS CAMPOS SON OBLIGATORIOS</span>
+      <!-- Nuestro Formulario -->
+      <!-- Conectamos el Formulario con el TS --> <!-- Hacemos un EventBinding para disparar el método con el que vamos a manipular los datos del empleado -->
+      <form class="mt-10" [formGroup]="createPrestador" (ngSubmit)="agregarPrestador()">
+        <!-- Campos de Inputs -->
+        <!-- Ahora nos conectamos input por input con los nombres del TS -->
+        <div class="flex mb-2"> <!-- Fila 1 -->
+          <div class="flex-1">
+            <input type="text" class="w-full px-3 py-2 border rounded-lg" formControlName="nombre" placeholder="Nombre">
+          </div>
+          <div class="flex-1">
+            <input type="text" class="w-full px-3 py-2 border rounded-lg" formControlName="rntRm" placeholder="RNT-RM">
+          </div>
+        </div>
+        <div class="flex mb-2"> <!-- Fila 2 -->
+          <div class="flex-1">
+            <input type="text" class="w-full px-3 py-2 border rounded-lg" formControlName="descripcion" placeholder="Descripción">
+          </div>
+          <div class="flex-1">
+            <input type="text" class="w-full px-3 py-2 border rounded-lg" formControlName="servicios" placeholder="Servicios">
+          </div>
+        </div>
+        <div class="flex mb-2"> <!-- Fila 3 -->
+          <div class="flex-1">
+            <input type="text" class="w-full px-3 py-2 border rounded-lg" formControlName="zona" placeholder="Zona">
+          </div>
+          <div class="flex-1">
+            <input type="text" class="w-full px-3 py-2 border rounded-lg" formControlName="municipio" placeholder="Municipio">
+          </div>
+        </div>
+        <div class="flex mb-2"> <!-- Fila 4 -->
+          <div class="flex-1">
+            <input type="text" class="w-full px-3 py-2 border rounded-lg" formControlName="direccion" placeholder="Dirección">
+          </div>
+          <div class="flex-1">
+            <input type="text" class="w-full px-3 py-2 border rounded-lg" formControlName="indicacionesAcceso" placeholder="Indicaciones de Acceso">
+          </div>
+        </div>
+        <div class="flex mb-2"> <!-- Fila 5 -->
+          <div class="flex-1">
+            <input type="text" class="w-full px-3 py-2 border rounded-lg" formControlName="googleMaps" placeholder="URL Google Maps">
+          </div>
+          <div class="flex-1">
+            <input type="number" class="w-full px-3 py-2 border rounded-lg" formControlName="latitud" placeholder="Latitud">
+          </div>
+        </div>
+        <div class="flex mb-2"> <!-- Fila 6 -->
+          <div class="flex-1">
+            <input type="number" class="w-full px-3 py-2 border rounded-lg" formControlName="longitud" placeholder="Longitud">
+          </div>
+          <div class="flex-1">
+            <input type="number" class="w-full px-3 py-2 border rounded-lg" formControlName="whatsapp" placeholder="Whatsapp">
+          </div>
+        </div>
+        <div class="flex mb-2"> <!-- Fila 7 -->
+          <div class="flex-1">
+            <input type="number" class="w-full px-3 py-2 border rounded-lg" formControlName="celular1" placeholder="Celular 1">
+          </div>
+          <div class="flex-1">
+            <input type="number" class="w-full px-3 py-2 border rounded-lg" formControlName="celular2" placeholder="Celular 2">
+          </div>
+        </div>
+        <div class="flex mb-2"> <!-- Fila 8 -->
+          <div class="flex-1">
+            <input type="text" class="w-full px-3 py-2 border rounded-lg" formControlName="facebook" placeholder="Facebook">
+          </div>
+          <div class="flex-1">
+            <input type="text" class="w-full px-3 py-2 border rounded-lg" formControlName="instagram" placeholder="Instagram">
+          </div>
+        </div>
+        <div class="flex mb-2"> <!-- Fila 9 -->
+          <div class="flex-1">
+            <input type="text" class="w-full px-3 py-2 border rounded-lg" formControlName="pagWeb" placeholder="Pag Web">
+          </div>
+          <div class="flex-1">
+            <input type="text" class="w-full px-3 py-2 border rounded-lg" formControlName="correo" placeholder="Correo">
+          </div>
+        </div>
+        <!-- Último Input -->
+        <input type="text" class="w-full px-3 py-2 border rounded-lg mb-2" formControlName="horarioAtencion" placeholder="Horarios de Atención">
+        <!-- Input de Imágenes -->
+        <div class="flex mb-2">
+          <div class="flex-1">
+            <input class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="file" multiple accept="image/*" (change)="uploadFiles($event)">
+          </div>
+        </div>
+        <!-- Botónes -->
+        <div class="flex justify-center mt-10">
+          <div class="space-x-4">
+            <button type="button" routerLink="/dashboard-admin/pagina-inicio/list-prestadores-turisticos" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Volver
+            </button>
+            <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              Agregar
+            </button>
+            <!-- Fin Botónes -->
+          </div>
+        </div>
+      </form>
+      <!-- Fin Formulario -->
+    </div>
+  </div>
+</div>

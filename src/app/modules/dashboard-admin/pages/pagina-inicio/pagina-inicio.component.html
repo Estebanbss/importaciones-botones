@@ -1,0 +1,31 @@
+<!-- Página para navegar entres módulos -->
+<div class="">
+  <div class="min-h-screen min-w-screen">
+    <!-- Sidebar -->
+    <aside *ngIf="ha"class="bg-indigo-600 w-45 h-52 absolute">
+      <div class="text-white text-2xl text-center font-semibold">Secciones</div>
+      <ul class="mt-6">
+          <li class="mb-3 text-center">
+              <a class="text-white hover:text-indigo-200 " routerLink="list-prestadores-turisticos">Prestadores Turísticos</a>
+          </li>
+          <li class="mb-3 text-center">
+              <a class="text-white hover:text-indigo-200 " routerLink="list-atractivo-turistico">Atractivos Turísticos</a>
+          </li>
+          <li class="mb-3 text-center">
+              <a class="text-white hover:text-indigo-200 " routerLink="list-municipio">Municipios</a>
+          </li>
+          <li class="mb-3 text-center">
+              <a class="text-white hover:text-indigo-200 " routerLink="list-rutas-turisticas">Rutas Turísticas</a>
+          </li>
+      </ul>
+    </aside>
+    <button class="absolute bottom-0" (click)="hidden()">BOTÓN</button>
+    <!-- Vistas -->
+    <router-outlet></router-outlet> <!-- Se coloca donde queremos que se muestren las vistas de las rutas -->
+  </div>
+</div>
+
+
+
+
+

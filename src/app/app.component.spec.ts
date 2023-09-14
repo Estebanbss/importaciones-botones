@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'admin-administrator'`, () => {
+  it(`should have as title 'dashboard-admin'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('admin-administrator');
+    expect(app.title).toEqual('dashboard-admin');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('admin-administrator app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('dashboard-admin app is running!');
   });
 });
