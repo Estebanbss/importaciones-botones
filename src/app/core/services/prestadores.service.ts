@@ -1,6 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, addDoc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, collectionData } from '@angular/fire/firestore';
 import { Storage, ref, uploadBytes } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
+import { PrestadorTuristico } from 'src/app/common/place.interface';
 
 
 @Injectable({
@@ -11,6 +13,7 @@ export class PrestadoresService {
   //? Propiedad Array de Promesas
   arregloDePromesas: Promise<any>[]; //Lo utilizamos para guardar nuestras promesas en la carga de archivos al servicio storage y asegurarnos que se cumplan todas para poder trabajar con ellas sin problema.
 
+  //? -> Inyecciones de Dependencias
   //Inyección de servicios Firebase
   constructor(
     private firestore: Firestore, //Inyectamos el servicio de Firestore
@@ -91,7 +94,16 @@ export class PrestadoresService {
   } //? Fin método agregar Prestador
 
 
+  //? -> Creamos un método para obtener los datos de una colección
+  //Read - R
+  obtenerPrestadores(): Observable<PrestadorTuristico[]> {
+    // Creamos una referencia a la colección de la que queremos recibir los datos
+    const prestadorRef = collection(this.firestore, 'prestadores'); // Servicio y nombre de la colección
 
+    //Retornamos el observable que nos devuelve una función anónima a la que nos debemos suscribir y en la que recibimos los datos solicitados de la colección
+    return collectionData( prestadorRef, { idField: 'id' }) as Observable<PrestadorTuristico[]>
+
+  }
 
 
 }

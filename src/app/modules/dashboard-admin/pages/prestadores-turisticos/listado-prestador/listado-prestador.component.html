@@ -20,7 +20,7 @@
       </div>
       <!--Nuestra Tabla-->
       <table class="min-w-full mt-4">
-
+        <!-- Encabezado de la Tabla -->
         <thead>
           <tr>
             <th
@@ -55,61 +55,21 @@
             </th>
           </tr>
         </thead>
-
+        <!-- Cuerpo de la Tabla -->
         <tbody class="bg-white divide-y divide-gray-200">
           <!-- Elementos Renderizados desde la BD -->
-          <tr class="bg-gray-100">
+          <tr *ngFor="let prestador of prestadores" class="bg-gray-100">
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              Valhalla Bar
+              {{ prestador.name }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              Restaurante, comidas, Piscina, Cerbeza
+              {{ prestador.servicios }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              Garzon
+              {{ prestador.municipio }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              3172759904
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              <!-- Para los íconos de Acciones - FontAwesome -->
-              <i class="fa-solid fa-pen-to-square fa-lg text-blue-500 mr-10 cursor-pointer"></i>
-              <i class="fa-solid fa-trash-can fa-lg text-red-500 cursor-pointer"></i>
-            </td>
-          </tr>
-
-          <tr>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              Valhalla Bar
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              Restaurante, comidas, Piscina, Cerbeza
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              Garzon
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              3172759904
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              <!-- Para los íconos de Acciones - FontAwesome -->
-              <i class="fa-solid fa-pen-to-square fa-lg text-blue-500 mr-10 cursor-pointer"></i>
-              <i class="fa-solid fa-trash-can fa-lg text-red-500 cursor-pointer"></i>
-            </td>
-          </tr>
-
-          <tr class="bg-gray-100">
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              Valhalla Bar
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              Restaurante, comidas, Piscina, Cerbeza
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              Garzon
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              3172759904
+              {{ prestador.celular1 }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               <!-- Para los íconos de Acciones - FontAwesome -->
@@ -120,7 +80,7 @@
 
         </tbody>
 
-      </table>
+      </table> <!-- Fin tabla -->
 
     </div>
   </div>
