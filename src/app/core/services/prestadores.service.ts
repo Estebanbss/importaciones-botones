@@ -8,6 +8,7 @@ import { Storage, ref, uploadBytes } from '@angular/fire/storage';
 })
 export class PrestadoresService {
 
+  //? Propiedad Array de Promesas
   arregloDePromesas: Promise<any>[]; //Lo utilizamos para guardar nuestras promesas en la carga de archivos al servicio storage y asegurarnos que se cumplan todas para poder trabajar con ellas sin problema.
 
   //Inyección de servicios Firebase
@@ -73,7 +74,7 @@ export class PrestadoresService {
         console.log(error);
       }); //? Fin del Promise.all
 
-    } else {
+    } else { // Si no hay archivos para cargar
 
       //? CARGA DE DATOS A FIRESTORE
       //Creamos una referencia a la colleción
@@ -88,6 +89,9 @@ export class PrestadoresService {
     return Promise.resolve(); // Puedes utilizar cualquier promesa vacía aquí
 
   } //? Fin método agregar Prestador
+
+
+
 
 
 }

@@ -15,13 +15,16 @@ export class AgregarPrestadorComponent implements OnInit {
   createPrestador: FormGroup; //Propiedad para almacenar los valores del Formulario y Gestionarlos.
 
   // ? -> Lo vamos a utilizar en el ngIf del span del aviso una vez enviado el Form
-  submitted = false; //Para saber si se envió el form.
+  submitted = false; //Para saber si se envió el form de manera correcta.
 
   // ? -> Propiedad de tipo Object que va a almacenar nuestros datos y se va a pasar a Firestore
   prestadorTuristico: PrestadorTuristico;
 
   // ? -> Propiedad para almacenar los archivos antes de cargarlos a la BD
   files: any[] = []; //Presupongo que los archivos son un arreglo de tipo any, no estoy seguro
+
+  // ? -> Propiedad Loading que nos va a determinar cuándo aparece el ícono de carga del html, se debe disparar la carga sólamente en caso de que el programa esté a la espera de una respuesta por parte de una promesa
+  loading = false;
 
   //Inyecciones de Dependencias
   constructor(
@@ -92,11 +95,15 @@ export class AgregarPrestadorComponent implements OnInit {
     this.submitted = true; //Confirmamos que se envió el formulario.
 
     //Usamos una validación en caso de que el Formulario sea inválido. (Se ve en el status).
+    //Es inválido cuando no se han llenado todos los campos
     if(this.createPrestador.invalid) {
       return; //Sale del método y no ejecuta nada más.
     }
 
-    //Ahora vamos a crear nuestra constante de tipo Object pre-definida en la Interfaz, en este caso PrestadorTuristico
+    //? -> Cambiamos la variable a true para indicar que empieza el proceso lógico con los métodos una vez enviado el form y validandos los valores del form
+    this.loading = true;
+
+    //Ahora vamos a inicializar nuestra constante de tipo Object pre-definida en la Interfaz, en este caso PrestadorTuristico
     //El objeto lo vamos a enviar a Firebase para almacenar
     this.prestadorTuristico = {
       //id -> Nos lo da firebase
@@ -123,14 +130,16 @@ export class AgregarPrestadorComponent implements OnInit {
       meGusta: 0 // -> # de Me gustas en la App
     }
 
-    console.log(this.prestadorTuristico); //Quiero ver lo que mi objeto va a guardar
+    console.log(this.prestadorTuristico); //Quiero ver lo que mi objeto guardó y se va a mandar a la BD
 
     //Servicio llamando al método para Agregar Prestador Turístico a Firestore
     this.prestadoresService.agregarPrestador(this.prestadorTuristico, this.files) //DEBO ENVIAR LOS ARCHVOS TAMBIEN y el Proceso de carga de archivos se ejecuta en el servicio
     .then(() => {
       //Mensaje
       alert('El empleado fue registrado con éxito');
-      //Nos direcciona a otro componente
+      //El loading pasa a false una vez obtenemos las respuesta a nuestra promesa del método.
+      this.loading = false;
+      //El router nos direcciona a otro componente
       this.router.navigate(['/dashboard-admin/pagina-inicio/list-prestadores-turisticos']);
     })
     .catch(error => console.log(error))
@@ -142,7 +151,7 @@ export class AgregarPrestadorComponent implements OnInit {
     //files es un arreglo de archivos que cargamos desde el html
     this.files = $event.target.files; //Apuntamos al input y luego los ficheros - los ficheros son un arreglo
     //console.log(this.files.length); // quiero saber el largo de mi arreglo
-  }
+  } //? -> Fin Método cargar archivo
 
 
 } //? -> Fin clase
