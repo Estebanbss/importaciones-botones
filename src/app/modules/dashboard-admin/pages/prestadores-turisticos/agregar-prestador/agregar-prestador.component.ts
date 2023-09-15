@@ -136,7 +136,7 @@ export class AgregarPrestadorComponent implements OnInit {
     this.prestadoresService.agregarPrestador(this.prestadorTuristico, this.files) //DEBO ENVIAR LOS ARCHVOS TAMBIEN y el Proceso de carga de archivos se ejecuta en el servicio
     .then(() => {
       //Mensaje
-      alert('El empleado fue registrado con éxito');
+      alert('El prestador fue registrado con éxito');
       //El loading pasa a false una vez obtenemos las respuesta a nuestra promesa del método.
       this.loading = false;
       //El router nos direcciona a otro componente
