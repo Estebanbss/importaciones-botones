@@ -34,4 +34,14 @@ export class ListadoPrestadorComponent implements OnInit {
     })
   }
 
+
+  //? -> Método para eliminar un Prestador
+  eliminarPrestador(prestador: any) {
+    this.prestadoresService.borrarPrestador(prestador)
+    .then(() => {
+      alert('Prestador Turistico Eliminado');
+    })
+    .catch(error => console.log(error));
+  }
+
 }

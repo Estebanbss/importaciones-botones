@@ -142,7 +142,10 @@ export class AgregarPrestadorComponent implements OnInit {
       //El router nos direcciona a otro componente
       this.router.navigate(['/dashboard-admin/pagina-inicio/list-prestadores-turisticos']);
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+      console.log('Error en la respuesta a la inserción de Datos Firestore')
+    })
 
   } //? -> Fin Método Agregar Prestador
 

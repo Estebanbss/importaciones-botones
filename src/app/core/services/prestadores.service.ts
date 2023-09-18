@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, collectionData, query, orderBy, doc, deleteDoc } from '@angular/fire/firestore';
 import { Storage, ref, uploadBytes } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 import { PrestadorTuristico } from 'src/app/common/place.interface';
@@ -75,6 +75,7 @@ export class PrestadoresService {
       })
       .catch(error => {
         console.log(error);
+        console.log('Error en el arreglo de Promesas');
       }); //? Fin del Promise.all
 
     } else { // Si no hay archivos para cargar
@@ -100,10 +101,25 @@ export class PrestadoresService {
     // Creamos una referencia a la colección de la que queremos recibir los datos
     const prestadorRef = collection(this.firestore, 'prestadores'); // Servicio y nombre de la colección
 
-    //Retornamos el observable que nos devuelve una función anónima a la que nos debemos suscribir y en la que recibimos los datos solicitados de la colección
-    return collectionData( prestadorRef, { idField: 'id' }) as Observable<PrestadorTuristico[]>
+    //Ordenamos los datos que queremos traer de la colleción usando orderBy y limit en un query
+    //El query nos sirve para organizar los datos que queremos traer de la BD
+    const q = query(prestadorRef, orderBy("name", "asc"));
 
-  }
+    //Retornamos el observable que nos devuelve una función anónima a la que nos debemos suscribir y en la que recibimos los datos solicitados de la colección
+    return collectionData( q, { idField: 'id' }) as Observable<PrestadorTuristico[]>
+
+  } //? -> Fin del método obtener Prestador
+
+
+  //? -> Método para eliminar datos de la BD
+  //Delete - D
+  //Aquí podemos elegir pasar como parámetro el objeto entero con todos los elementos ó sólo el elemento con el que queremos crear la referencia para borrar
+  //En este caso pasamos el objeto con todos los elementos
+  borrarPrestador(prestador: any): Promise<any> {
+    //Creamos la referencia al documento que queremos borrar
+    const docRef = doc(this.firestore, `prestadores/${prestador.id}`); // Borramos por id
+    return deleteDoc(docRef); // Nos retorna una promesa
+  } //? Fin método eleminar prestador
 
 
 }
