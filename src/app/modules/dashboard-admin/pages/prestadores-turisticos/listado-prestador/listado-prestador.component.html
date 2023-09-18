@@ -73,7 +73,7 @@
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               <!-- Para los íconos de Acciones - FontAwesome -->
-              <i class="fa-solid fa-pen-to-square fa-lg text-blue-500 mr-10 cursor-pointer"></i>
+              <i (click)="obtenerPrestador(prestador)" class="fa-solid fa-pen-to-square fa-lg text-blue-500 mr-10 cursor-pointer"></i>
               <!-- Pasamos por parámetro el objeto listado para manipularlo, en este caso borrarlo -->
               <i (click)="eliminarPrestador(prestador)" class="fa-solid fa-trash-can fa-lg text-red-500 cursor-pointer"></i>
             </td>

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, addDoc, collectionData, query, orderBy, doc, deleteDoc } from '@angular/fire/firestore';
 import { Storage, ref, uploadBytes } from '@angular/fire/storage';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { PrestadorTuristico } from 'src/app/common/place.interface';
 
 
@@ -9,6 +9,32 @@ import { PrestadorTuristico } from 'src/app/common/place.interface';
   providedIn: 'root'
 })
 export class PrestadoresService {
+
+  //? Observable con el que compartimos información para editar un elemento de List a Editar
+  private sharingDataPrestador: BehaviorSubject<PrestadorTuristico> = new BehaviorSubject<PrestadorTuristico>( {
+          id: '', // -> Nos lo crea Firebase
+          name: '',
+          rntRm: '',
+          descripcion: '',
+          servicios: '',
+          zona: '',
+          municipio: '',
+          direccion: '',
+          indicacionesAcceso: '',
+          googleMaps: '',
+          latitud: 0,
+          longitud: 0,
+          whatsapp: 0,
+          celular1: 0,
+          celular2: 0,
+          facebook: '',
+          instagram: '',
+          pagWeb: '',
+          correo: '',
+          horarioAtencion: '',
+          pathImages: [], // -> lo conseguimos en la inserción de imágenes
+          meGusta: 0 // -> # de Me gustas en la App
+  } )
 
   //? Propiedad Array de Promesas
   arregloDePromesas: Promise<any>[]; //Lo utilizamos para guardar nuestras promesas en la carga de archivos al servicio storage y asegurarnos que se cumplan todas para poder trabajar con ellas sin problema.
@@ -22,6 +48,18 @@ export class PrestadoresService {
       //Aquí inicializamos nuestras propiedades de la clase
       this.arregloDePromesas = [];
     }
+
+  //? Métodos para compartir información entre componentes por Observable
+
+  //? Nos suscribimos a éste método para obtener los datos que tiene el observable
+  get sharingPrestador() {
+    return this.sharingDataPrestador.asObservable();
+  }
+
+  //? Cambiamos la Información al observable
+  set editPrestadorData(newValue: PrestadorTuristico ) {
+    this.sharingDataPrestador.next(newValue);
+  }
 
   //? Método para generar los empleados e insertarlos en la base de datos
   //Create - C

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PrestadorTuristico } from 'src/app/common/place.interface';
 import { PrestadoresService } from 'src/app/core/services/prestadores.service';
 
@@ -14,7 +15,8 @@ export class ListadoPrestadorComponent implements OnInit {
 
   //? -> Inyecciones de dependencias
   constructor(
-    private prestadoresService: PrestadoresService // Inyectamos el servicio
+    private prestadoresService: PrestadoresService, // Inyectamos el servicio
+    private router: Router, // Clase Router para moverme a otro componente una vez enviado el form
   ) {
 
   }
@@ -42,6 +44,13 @@ export class ListadoPrestadorComponent implements OnInit {
       alert('Prestador Turistico Eliminado');
     })
     .catch(error => console.log(error));
+  }
+
+  //? -> Método para obtener objeto a actualizar y enviarlo por medio de Observables
+  obtenerPrestador(prestador: any) {
+    //Utilizamos un BehaviorSubject para obtener el dato que queremos actualizar
+    this.prestadoresService.editPrestadorData = prestador;
+    this.router.navigate(['/dashboard-admin/pagina-inicio/editar-prestadores-turisticos']);
   }
 
 }

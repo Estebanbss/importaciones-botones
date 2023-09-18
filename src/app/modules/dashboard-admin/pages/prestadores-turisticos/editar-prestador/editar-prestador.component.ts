@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { PrestadorTuristico } from 'src/app/common/place.interface';
 import { PrestadoresService } from 'src/app/core/services/prestadores.service';
 
@@ -11,6 +12,11 @@ import { PrestadoresService } from 'src/app/core/services/prestadores.service';
 })
 export class EditarPrestadorComponent  implements OnInit {
 
+  //? Observable con el que vamos a recibir la información compartida desde el componente listar
+  private data$: Observable<PrestadorTuristico>;
+
+  //? Propiedad de tipo PrestadorTuristico para almacenar y manipular lo que trae el Observable
+  prestador!: PrestadorTuristico;
 
   // ? -> La propiedad createPrestador no es un Objeto, es una Propiedad de Almacén de los datos HTML
   createPrestador: FormGroup; //Propiedad para almacenar los valores del Formulario y Gestionarlos.
@@ -83,11 +89,53 @@ export class EditarPrestadorComponent  implements OnInit {
       meGusta: 0 // -> # de Me gustas en la App
     }
 
+    //Inicializamos el Observable y nos suscribimos a él para obtener la información
+    this.data$ = this.prestadoresService.sharingPrestador;
+
   } //? -> Fin Constructor
 
   ngOnInit():void {
-
+    // this.data$.subscribe((valor) => {
+    //   console.log('Valor emitido por BehaviorSubject:', valor);
+    // })
+    this.llenarFormulario(); // Nos llena el formulario con los datos que tiene el observable
   }
+
+  //? -> Método para rellenar los campos del formulario con el objeto que tenemos
+  llenarFormulario() {
+    //Primero nos suscribimos a nuestro observable para obtener los datos del elemento que queremos actualizar
+    this.data$.subscribe((prestador) => {
+      //Pasamos los datos del Observable a nuestra propiedad nativa para mejor manipulación de datos
+      this.prestador = prestador;
+    })
+
+    //Vamos a rellenar el formulario sólo con los datos que necesitan los campos
+    this.createPrestador.setValue({
+      nombre: this.prestador.name,
+      rntRm: this.prestador.rntRm,
+      descripcion: this.prestador.descripcion,
+      servicios: this.prestador.servicios,
+      zona: this.prestador.zona,
+      municipio: this.prestador.municipio,
+      direccion: this.prestador.direccion,
+      indicacionesAcceso: this.prestador.indicacionesAcceso,
+      googleMaps: this.prestador.googleMaps,
+      latitud: this.prestador.latitud,
+      longitud: this.prestador.longitud,
+      whatsapp: this.prestador.whatsapp,
+      celular1: this.prestador.celular1,
+      celular2: this.prestador.celular2,
+      facebook: this.prestador.facebook,
+      instagram: this.prestador.instagram,
+      pagWeb: this.prestador.pagWeb,
+      correo: this.prestador.correo,
+      horarioAtencion: this.prestador.horarioAtencion,
+    })
+
+  } //? -> Fin método Llenar Formulario
+
+  //? -> Método para editarPrestador
+
 
   //? -> Método para agregar un Prestador en Firestore
   //Aquí se gestionan los datos que se digitan desde el html - Se ejecuta lo que queremos hacer inmediatamente enviemos el Form.
