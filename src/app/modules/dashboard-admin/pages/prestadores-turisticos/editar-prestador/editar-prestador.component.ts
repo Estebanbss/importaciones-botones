@@ -164,7 +164,7 @@ export class EditarPrestadorComponent  implements OnInit {
     }
 
     //Utilizamos el servicio con el método de actualizar los datos en Firestore
-    this.prestadoresService.actualizarEmpleado(this.prestadorTuristico) //Manejamos la Promesa
+    this.prestadoresService.actualizarEmpleado(this.prestadorTuristico, this.files) //Manejamos la Promesa
     .then(() => {
       //Informamos
       alert('El prestador fue modificado con éxito');
@@ -173,8 +173,7 @@ export class EditarPrestadorComponent  implements OnInit {
     })
     .catch(error => console.log(error));
 
-
-  }
+  } //? -> Fin método para Editar Prestador
 
 
   //? -> Método para agregar un Prestador en Firestore

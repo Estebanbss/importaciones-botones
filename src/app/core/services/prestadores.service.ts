@@ -49,6 +49,8 @@ export class PrestadoresService {
       this.arregloDePromesas = [];
     }
 
+  //? SECCIÓN COMPARTIR INFORMACIÓN
+
   //? Métodos para compartir información entre componentes por Observable
 
   //? Nos suscribimos a éste método para obtener los datos que tiene el observable
@@ -60,6 +62,8 @@ export class PrestadoresService {
   set editPrestadorData(newValue: PrestadorTuristico ) {
     this.sharingDataPrestador.next(newValue);
   }
+
+  //? SECCIÓN AGREGAR
 
   //? Método para generar los empleados e insertarlos en la base de datos
   //Create - C
@@ -82,7 +86,7 @@ export class PrestadoresService {
       for(let file of files) {
 
         //Creamos la referencia para guardar en Storage
-        const imgRef = ref(this.storage, `prestadoresStorage/${file.name}`);
+        const imgRef = ref(this.storage, `prestadoresStorage/${prestador.name}/${file.name}`);
 
         //? Procedemos a insertar las imágenes una a una en el Storage con el método uploadBytes y guardamos las respuestas en un arreglo de Promesas
         //Creamos un arreglo de promesas con lo que nos devuelve el método uploadBytes
@@ -132,6 +136,7 @@ export class PrestadoresService {
 
   } //? Fin método agregar Prestador
 
+  //? SECCIÓN LEER
 
   //? -> Creamos un método para obtener los datos de una colección
   //Read - R
@@ -148,6 +153,7 @@ export class PrestadoresService {
 
   } //? -> Fin del método obtener Prestador
 
+  //? SECCIÓN BORRAR
 
   //? -> Método para eliminar datos de la BD
   //Delete - D
@@ -159,11 +165,78 @@ export class PrestadoresService {
     return deleteDoc(docRef); // Nos retorna una promesa
   } //? Fin método eleminar prestador
 
+
+  //? SECCIÓN ACTUALIZAR
+
   //? -> Método para Actualizar los datos de un Documento
-  actualizarEmpleado(prestador: any): Promise<any> {
-    //Creamos la referencia al documento de firestore
-    const docRef = doc(this.firestore, `prestadores/${prestador.id}`);
-    return updateDoc(docRef, prestador); // Retornamos la promesa
-  }
+  //Update - U
+  actualizarEmpleado(prestador: any, files: any): Promise<any> {
+
+    // console.log(prestador.pathImages.length);
+    // console.log(prestador.pathImages);
+
+    //? -> Deberíamos ejecutar la carga de archivos antes de guardar los datos en la BD para que se guarde el arreglo de paths de las Imágenes de una vez en Firestore.
+    //Hacer una validación para ejecutar el código si hay Archivos para cargar, de otra forma no es necesario
+
+    if(!(files.length === 0)) {
+      console.log('Exísten archivos a cargar');
+
+      //Creamos una referencia al sitio de firebase
+      //En la referencia se coloca el servicio y el path donde queremos guardar, aún si el path no exíste se puede declarar
+
+      //? Creamos una forma para cargar todo el arreglo
+      //Utilizamos un ciclo for para recorrer el arreglo e insertar archivo por archivo adquiriendo su referencia
+      for(let file of files) {
+
+        //Creamos la referencia para guardar en Storage
+        const imgRef = ref(this.storage, `prestadoresStorage/${prestador.name}/${file.name}`);
+
+        //? Procedemos a insertar las imágenes una a una en el Storage con el método uploadBytes y guardamos las respuestas en un arreglo de Promesas
+        //Creamos un arreglo de promesas con lo que nos devuelve el método uploadBytes
+        this.arregloDePromesas.push(uploadBytes(imgRef, file)); //Método para subir los archivos y retorna Promesas
+
+      } //Fin del for
+
+      //? Necesitamos los datos que dan las respuestas a las promesas de la carga de Imágenes, por eso gestionamos todo con un Promise.all para obtenerlas
+      //Utilizamos un Promise all para asegurarnos de que el código no avanza hasta que todas las promesas se cumplan
+      Promise.all(this.arregloDePromesas)
+      .then(resultados => {
+
+        //Nos retorna un arreglo con las respuestas de las promesas
+        //Procedemos a iterar para trabajar con cada resultado y obtener el o los path que queremos guardar
+        for( let resultado of resultados) {
+          // console.log(resultado);
+          const fullPath = resultado.metadata.fullPath;
+          // console.log(fullPath);
+          prestador.pathImages.push(fullPath); //Guardamos los Paths en nuestro arreglo pathImages
+        }
+
+        //? ACTUALIZACIÓN DE DATOS
+        //Creamos la referencia al documento de firestore
+        const docRef = doc(this.firestore, `prestadores/${prestador.id}`);
+        return updateDoc(docRef, prestador); // Retornamos la promesa
+
+      })
+      .catch(error => {
+        console.log(error);
+        console.log('Error en el arreglo de Promesas');
+      }); //? Fin del Promise.all
+
+    } else { // Si no hay archivos para cargar
+
+      //? ACTUALIZACIÓN DE DATOS
+      //Creamos la referencia al documento de firestore
+      const docRef = doc(this.firestore, `prestadores/${prestador.id}`);
+      return updateDoc(docRef, prestador); // Retornamos la promesa
+
+    } //? -> Fin de la validación para carga de imágenes
+
+    //? Código ChatGpt para solucionar return
+    // Añadimos una declaración de retorno al final de la función
+    return Promise.resolve(); // Puedes utilizar cualquier promesa vacía aquí
+
+  } //? -> Fin del método Actualizar Empleado
+
+
 
 }
