@@ -39,6 +39,9 @@ export class PrestadoresService {
   //? Propiedad Array de Promesas
   arregloDePromesas: Promise<any>[]; //Lo utilizamos para guardar nuestras promesas en la carga de archivos al servicio storage y asegurarnos que se cumplan todas para poder trabajar con ellas sin problema.
 
+  //? Array de Promesas para imágenes
+  imagesPromesa: Promise<any>[];
+
   //? -> Inyecciones de Dependencias
   //Inyección de servicios Firebase
   constructor(
@@ -47,6 +50,8 @@ export class PrestadoresService {
     ) {
       //Aquí inicializamos nuestras propiedades de la clase
       this.arregloDePromesas = [];
+
+      this.imagesPromesa = [];
     }
 
   //? SECCIÓN COMPARTIR INFORMACIÓN
@@ -238,28 +243,29 @@ export class PrestadoresService {
   } //? -> Fin del método Actualizar Empleado
 
   //? -> Método para obtener la URL de descarga de las imágenes y poder mostrarlas
-  getImages(prestador: any) {
+  getImages(prestador: any): Promise<any>  {
     //Arreglo de imágenes que vamos a retornar
     const images: any = [];
 
     //Vamos a recorrer el arreglo de pathImages de nuestro objeto para traer las URL de descarga de cada referencia
-    prestador.pathImages.forEach(async (path: any) => {
+    prestador.pathImages.forEach((path: any) => {
 
       //Creamos una referencia a las imágenes que deseamos descargar
       const pathReference = ref(this.storage, path);
 
       //Utilizamos el método Firebase para obtener la URL de descarga
-      const url = await getDownloadURL(pathReference);
+      //const url = await getDownloadURL(pathReference);
+
+      //Creamos un arreglo de promesas con lo que nos devuelve el método getDownloadURL
+      this.imagesPromesa.push(getDownloadURL(pathReference));
 
       //Guardamos la url descargada en el arreglo de imágenes que vamos a mostrar
-      images.push(url);
-
+      //images.push(url);
     });
 
-    //Retornamos el arreglo de las url de imágen
-    return images;
+    return Promise.all(this.imagesPromesa); //Retornamos la promesa
 
-  }
+  }//? Fin del método getImages
 
   //? -> Método para eliminar las imágenes
 
