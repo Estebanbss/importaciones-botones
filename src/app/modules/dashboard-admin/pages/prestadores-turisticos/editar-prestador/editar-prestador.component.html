@@ -20,7 +20,7 @@
       <span *ngIf="submitted && createPrestador.invalid" class="block bg-red-500 text-white py-2 rounded text-center w-full">TODOS LOS CAMPOS SON OBLIGATORIOS</span>
       <!-- Nuestro Formulario -->
       <!-- Conectamos el Formulario con el TS --> <!-- Hacemos un EventBinding para disparar el método con el que vamos a manipular los datos del empleado -->
-      <form class="mt-10" [formGroup]="createPrestador" (ngSubmit)="agregarPrestador()">
+      <form class="mt-10" [formGroup]="createPrestador" (ngSubmit)="editarPrestador()">
         <!-- Campos de Inputs -->
         <!-- Ahora nos conectamos input por input con los nombres del TS -->
         <div class="flex mb-2"> <!-- Fila 1 -->

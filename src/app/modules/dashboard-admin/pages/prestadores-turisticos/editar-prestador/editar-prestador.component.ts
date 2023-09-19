@@ -135,6 +135,46 @@ export class EditarPrestadorComponent  implements OnInit {
   } //? -> Fin método Llenar Formulario
 
   //? -> Método para editarPrestador
+  editarPrestador() {
+
+    //Creamos el objeto que queremos editar y que vamos a pasar a firebase, lo creamos con los valores que nos da el observable y lo que modificó el usuario en el formulario.
+    this.prestadorTuristico = {
+      id: this.prestador.id, // -> Nos lo da firebase
+      name: this.createPrestador.value.nombre,
+      rntRm: this.createPrestador.value.rntRm,
+      descripcion: this.createPrestador.value.descripcion,
+      servicios: this.createPrestador.value.servicios,
+      zona: this.createPrestador.value.zona,
+      municipio: this.createPrestador.value.municipio,
+      direccion: this.createPrestador.value.direccion,
+      indicacionesAcceso: this.createPrestador.value.indicacionesAcceso,
+      googleMaps: this.createPrestador.value.googleMaps,
+      latitud:this.createPrestador.value.latitud,
+      longitud:this.createPrestador.value.longitud,
+      whatsapp:this.createPrestador.value.whatsapp,
+      celular1:this.createPrestador.value.celular1,
+      celular2:this.createPrestador.value.celular2,
+      facebook: this.createPrestador.value.facebook,
+      instagram: this.createPrestador.value.instagram,
+      pagWeb: this.createPrestador.value.pagWeb,
+      correo: this.createPrestador.value.correo,
+      horarioAtencion: this.createPrestador.value.horarioAtencion,
+      pathImages: this.prestador.pathImages, // -> lo conseguimos en la inserción de imágenes
+      meGusta: this.prestador.meGusta // -> # de Me gustas en la App
+    }
+
+    //Utilizamos el servicio con el método de actualizar los datos en Firestore
+    this.prestadoresService.actualizarEmpleado(this.prestadorTuristico) //Manejamos la Promesa
+    .then(() => {
+      //Informamos
+      alert('El prestador fue modificado con éxito');
+      //Nos direcciona a la página del Listado
+      this.router.navigate(['/dashboard-admin/pagina-inicio/list-prestadores-turisticos']);
+    })
+    .catch(error => console.log(error));
+
+
+  }
 
 
   //? -> Método para agregar un Prestador en Firestore

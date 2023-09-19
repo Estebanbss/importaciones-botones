@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData, query, orderBy, doc, deleteDoc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, collectionData, query, orderBy, doc, deleteDoc, updateDoc } from '@angular/fire/firestore';
 import { Storage, ref, uploadBytes } from '@angular/fire/storage';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PrestadorTuristico } from 'src/app/common/place.interface';
@@ -159,5 +159,11 @@ export class PrestadoresService {
     return deleteDoc(docRef); // Nos retorna una promesa
   } //? Fin método eleminar prestador
 
+  //? -> Método para Actualizar los datos de un Documento
+  actualizarEmpleado(prestador: any): Promise<any> {
+    //Creamos la referencia al documento de firestore
+    const docRef = doc(this.firestore, `prestadores/${prestador.id}`);
+    return updateDoc(docRef, prestador); // Retornamos la promesa
+  }
 
 }
