@@ -237,6 +237,9 @@ export class PrestadoresService {
 
   } //? -> Fin del método Actualizar Empleado
 
+  //? -> Método para obtener la URL de descarga de las imágenes y poder mostrarlas
 
+
+  //? -> Método para eliminar las imágenes
 
 }
