@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, addDoc, collectionData, query, orderBy, doc, deleteDoc, updateDoc } from '@angular/fire/firestore';
-import { Storage, ref, uploadBytes } from '@angular/fire/storage';
+import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PrestadorTuristico } from 'src/app/common/place.interface';
 
@@ -238,7 +238,28 @@ export class PrestadoresService {
   } //? -> Fin del método Actualizar Empleado
 
   //? -> Método para obtener la URL de descarga de las imágenes y poder mostrarlas
+  getImages(prestador: any) {
+    //Arreglo de imágenes que vamos a retornar
+    const images: any = [];
 
+    //Vamos a recorrer el arreglo de pathImages de nuestro objeto para traer las URL de descarga de cada referencia
+    prestador.pathImages.forEach(async (path: any) => {
+
+      //Creamos una referencia a las imágenes que deseamos descargar
+      const pathReference = ref(this.storage, path);
+
+      //Utilizamos el método Firebase para obtener la URL de descarga
+      const url = await getDownloadURL(pathReference);
+
+      //Guardamos la url descargada en el arreglo de imágenes que vamos a mostrar
+      images.push(url);
+
+    });
+
+    //Retornamos el arreglo de las url de imágen
+    return images;
+
+  }
 
   //? -> Método para eliminar las imágenes
 
