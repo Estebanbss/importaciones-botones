@@ -79,8 +79,7 @@ export class PrestadoresService {
       //Creamos la referencia a la dirección donde vamos a cargar la imágen en el Storage
       const imgRef = ref(this.storage, `prestadoresStorage/${prestador.name}/ImagenPrincipal/${portadaFile.name}`);
       //Insertamos la imágen
-      //? HASTA AQUÍ FUNCIONA
-      uploadBytes(imgRef, portadaFile)
+      uploadBytes(imgRef, portadaFile) //? HASTA AQUÍ FUNCIONA
       .then( async resultado => {
         //Recogemos el path de la imágen
         const path = resultado.metadata.fullPath;
