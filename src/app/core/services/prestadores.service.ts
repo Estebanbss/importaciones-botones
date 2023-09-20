@@ -63,7 +63,7 @@ export class PrestadoresService {
 
   //? Método para generar los empleados e insertarlos en la base de datos
   //Create - C
-  agregarPrestador(prestador: any, files: any, portadaFile: any): Promise<any> {
+  agregarPrestador(prestador: any, files: any): Promise<any> {
 
     //? Propiedad Array de Promesas para los path
     const arregloDePromesas: Promise<any>[] = []; //Lo utilizamos para guardar nuestras promesas en la carga de archivos al servicio storage y asegurarnos que se cumplan todas para poder trabajar con ellas sin problema.
@@ -73,9 +73,6 @@ export class PrestadoresService {
 
     //? Array de Promesas para url imágenes
     const urlPromesa: Promise<any>[] = [];
-
-    // console.log(prestador.pathImages.length);
-    // console.log(prestador.pathImages);
 
     //? -> Deberíamos ejecutar la carga de archivos antes de guardar los datos en la BD para que se guarde el arreglo de paths de las Imágenes de una vez en Firestore.
     //Hacer una validación para ejecutar el código si hay Archivos para cargar, de otra forma no es necesario
@@ -117,7 +114,7 @@ export class PrestadoresService {
         arrayPaths.forEach((path:any) => {
           // Creamos una referencia a las imágenes que deseamos descargar
           const pathReference = ref(this.storage, path);
-
+          // Hacemos la solicitud a Storage de las Url para descargar las imágenes
           urlPromesa.push(getDownloadURL(pathReference));
 
         })
@@ -125,6 +122,7 @@ export class PrestadoresService {
         Promise.all(urlPromesa)
         .then(results => {
           for(let [indice, result] of results.entries()) {
+            //Se está guardando el path y la url que obtenemos de la última promesa
             prestador.pathImages.push({path: arrayPaths[indice] , url: result})
           }
           //? CARGA DE DATOS A FIRESTORE
@@ -159,6 +157,12 @@ export class PrestadoresService {
     return Promise.resolve(); // Puedes utilizar cualquier promesa vacía aquí
 
   } //? Fin método agregar Prestador
+
+
+  agregarImagenPortada(portadaFile: any) {
+
+  }
+
 
   //? SECCIÓN LEER
 

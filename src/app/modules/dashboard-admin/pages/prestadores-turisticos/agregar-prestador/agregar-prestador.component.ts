@@ -143,8 +143,8 @@ export class AgregarPrestadorComponent implements OnInit {
 
     console.log(this.prestadorTuristico); //Quiero ver lo que mi objeto guardó y se va a mandar a la BD
 
-    //Servicio llamando al método para Agregar Prestador Turístico a Firestore
-    this.prestadoresService.agregarPrestador(this.prestadorTuristico, this.files, this.portadaFile) //DEBO ENVIAR LOS ARCHVOS TAMBIEN y el Proceso de carga de archivos se ejecuta en el servicio
+    //Servicio llamando al método para Agregar Prestador Turístico a Firestore con la galería de imágenes
+    this.prestadoresService.agregarPrestador(this.prestadorTuristico, this.files) //DEBO ENVIAR LOS ARCHVOS (imágenes) TAMBIEN y el Proceso de carga de archivos se ejecuta en el servicio
     .then(() => {
       //Mensaje
       alert('El prestador fue registrado con éxito');
@@ -160,6 +160,14 @@ export class AgregarPrestadorComponent implements OnInit {
 
   } //? -> Fin Método Agregar Prestador
 
+  //? -> Método para agregar la imágen principal
+  cargarImagenPrincipal() {
+    if(!(this.portadaFile.length === 0)) {
+      //Servicio llamando al método para Agregar Imágen de Portada
+      this.prestadoresService.agregarImagenPortada(this.portadaFile);
+    }
+  } //? Fin Método
+
   //? -> Método para Capturar los Archivos antes de enviar el Form - Se dispara el método con el Input
   uploadFiles($event: any) {
     //files es un arreglo de archivos que cargamos desde el html
@@ -170,7 +178,7 @@ export class AgregarPrestadorComponent implements OnInit {
   //? -> Método para Cargar la imágen de portada o imágen principal
   uploadFilePortada($event: any) {
     this.portadaFile = $event.target.files[0];
-    console.log(this.portadaFile);
+    // console.log(this.portadaFile);
   }
 
 } //? -> Fin clase
