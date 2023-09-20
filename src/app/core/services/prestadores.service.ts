@@ -63,7 +63,7 @@ export class PrestadoresService {
 
   //? Método para generar los empleados e insertarlos en la base de datos
   //Create - C
-  agregarPrestador(prestador: any, files: any): Promise<any> {
+  agregarPrestador(prestador: any, files: any, portadaFile: any): Promise<any> {
 
     //? Propiedad Array de Promesas para los path
     const arregloDePromesas: Promise<any>[] = []; //Lo utilizamos para guardar nuestras promesas en la carga de archivos al servicio storage y asegurarnos que se cumplan todas para poder trabajar con ellas sin problema.
@@ -74,11 +74,39 @@ export class PrestadoresService {
     //? Array de Promesas para url imágenes
     const urlPromesa: Promise<any>[] = [];
 
+    //? -> Código para subir imágen Principal
+    if(!(portadaFile.length === 0)) {
+      //Creamos la referencia a la dirección donde vamos a cargar la imágen en el Storage
+      const imgRef = ref(this.storage, `prestadoresStorage/${prestador.name}/ImagenPrincipal/${portadaFile.name}`);
+      //Insertamos la imágen
+      //? HASTA AQUÍ FUNCIONA
+      uploadBytes(imgRef, portadaFile)
+      .then( async resultado => {
+        //Recogemos el path de la imágen
+        const path = resultado.metadata.fullPath;
+        //Creamos la referencia para descargar la imágen
+        const pathReference = ref(this.storage, path);
+        //Solicitamos la URL
+        getDownloadURL(pathReference)
+        .then( url => {
+          //Insertamos los datos al prestador
+          prestador.pathImagePortada.path = path;
+          prestador.pathImagePortada.url = url;
+        })
+        .catch(error => {console.log(error)});
+      })
+      .catch(error =>
+        {
+          console.log(error)
+          console.log('Error en Agregar Imagen Portada');
+        })
+    } //? -> Fin para subir imágen Principal
+
     //? -> Deberíamos ejecutar la carga de archivos antes de guardar los datos en la BD para que se guarde el arreglo de paths de las Imágenes de una vez en Firestore.
     //Hacer una validación para ejecutar el código si hay Archivos para cargar, de otra forma no es necesario
 
     if(!(files.length === 0)) {
-      console.log('Exísten archivos a cargar');
+      //console.log('Exísten archivos a cargar');
 
       //Creamos una referencia al sitio de firebase
       //En la referencia se coloca el servicio y el path donde queremos guardar, aún si el path no exíste se puede declarar
@@ -158,10 +186,6 @@ export class PrestadoresService {
 
   } //? Fin método agregar Prestador
 
-
-  agregarImagenPortada(portadaFile: any) {
-
-  }
 
 
   //? SECCIÓN LEER
