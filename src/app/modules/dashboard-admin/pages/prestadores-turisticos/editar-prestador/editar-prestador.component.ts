@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -34,7 +34,7 @@ export class EditarPrestadorComponent  implements OnInit {
   loading = false;
 
   //? -> Arreglo de URL de imágenes
-  images: any[] = [] ;
+  images: any[] = [];
 
   //? Inyecciones de Dependencias
   constructor(
@@ -106,6 +106,7 @@ export class EditarPrestadorComponent  implements OnInit {
 
   //? -> Método para rellenar los campos del formulario con el objeto que tenemos
   llenarFormulario() {
+
     //Primero nos suscribimos a nuestro observable para obtener los datos del elemento que queremos actualizar
     this.data$.subscribe((prestador) => {
       //Pasamos los datos del Observable a nuestra propiedad nativa para mejor manipulación de datos
@@ -161,6 +162,8 @@ export class EditarPrestadorComponent  implements OnInit {
 
   } //? -> Fin método Llenar Formulario
 
+
+
   //? -> Método para editarPrestador
   editarPrestador() {
 
@@ -208,70 +211,6 @@ export class EditarPrestadorComponent  implements OnInit {
     this.files = $event.target.files; //Apuntamos al input y luego los ficheros - los ficheros son un arreglo
     //console.log(this.files.length); // quiero saber el largo de mi arreglo
   } //? -> Fin Método cargar archivo
-
-
-
-  // //? -> Método para agregar un Prestador en Firestore
-  // //Aquí se gestionan los datos que se digitan desde el html - Se ejecuta lo que queremos hacer inmediatamente enviemos el Form.
-  // agregarPrestador() {
-
-  //   this.submitted = true; //Confirmamos que se envió el formulario.
-
-  //   //Usamos una validación en caso de que el Formulario sea inválido. (Se ve en el status).
-  //   //Es inválido cuando no se han llenado todos los campos
-  //   if(this.createPrestador.invalid) {
-  //     return; //Sale del método y no ejecuta nada más.
-  //   }
-
-  //   //? -> Cambiamos la variable a true para indicar que empieza el proceso lógico con los métodos una vez enviado el form y validandos los valores del form
-  //   this.loading = true;
-
-  //   //Ahora vamos a inicializar nuestra constante de tipo Object pre-definida en la Interfaz, en este caso PrestadorTuristico
-  //   //El objeto lo vamos a enviar a Firebase para almacenar
-  //   this.prestadorTuristico = {
-  //     //id -> Nos lo da firebase
-  //     name: this.createPrestador.value.nombre,
-  //     rntRm: this.createPrestador.value.rntRm,
-  //     descripcion: this.createPrestador.value.descripcion,
-  //     servicios: this.createPrestador.value.servicios,
-  //     zona: this.createPrestador.value.zona,
-  //     municipio: this.createPrestador.value.municipio,
-  //     direccion: this.createPrestador.value.direccion,
-  //     indicacionesAcceso: this.createPrestador.value.indicacionesAcceso,
-  //     googleMaps: this.createPrestador.value.googleMaps,
-  //     latitud:this.createPrestador.value.latitud,
-  //     longitud:this.createPrestador.value.longitud,
-  //     whatsapp:this.createPrestador.value.whatsapp,
-  //     celular1:this.createPrestador.value.celular1,
-  //     celular2:this.createPrestador.value.celular2,
-  //     facebook: this.createPrestador.value.facebook,
-  //     instagram: this.createPrestador.value.instagram,
-  //     pagWeb: this.createPrestador.value.pagWeb,
-  //     correo: this.createPrestador.value.correo,
-  //     horarioAtencion: this.createPrestador.value.horarioAtencion,
-  //     pathImages: [], // -> lo conseguimos en la inserción de imágenes
-  //     meGusta: 0 // -> # de Me gustas en la App
-  //   }
-
-  //   console.log(this.prestadorTuristico); //Quiero ver lo que mi objeto guardó y se va a mandar a la BD
-
-  //   //Servicio llamando al método para Agregar Prestador Turístico a Firestore
-  //   this.prestadoresService.agregarPrestador(this.prestadorTuristico, this.files) //DEBO ENVIAR LOS ARCHVOS TAMBIEN y el Proceso de carga de archivos se ejecuta en el servicio
-  //   .then(() => {
-  //     //Mensaje
-  //     alert('El prestador fue registrado con éxito');
-  //     //El loading pasa a false una vez obtenemos las respuesta a nuestra promesa del método.
-  //     this.loading = false;
-  //     //El router nos direcciona a otro componente
-  //     this.router.navigate(['/dashboard-admin/pagina-inicio/list-prestadores-turisticos']);
-  //   })
-  //   .catch(error => {
-  //     console.log(error)
-  //     console.log('Error en la respuesta a la inserción de Datos Firestore')
-  //   })
-
-  // } //? -> Fin Método Agregar Prestador
-
 
 
 }

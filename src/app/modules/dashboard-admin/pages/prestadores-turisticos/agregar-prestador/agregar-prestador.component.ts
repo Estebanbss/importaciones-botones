@@ -23,6 +23,9 @@ export class AgregarPrestadorComponent implements OnInit {
   // ? -> Propiedad para almacenar los archivos antes de cargarlos a la BD
   files: any[] = []; //Presupongo que los archivos son un arreglo de tipo any, no estoy seguro
 
+  //? -> Propiedad para almacenar la imágen de portada antes de cargarla a la BD
+  portadaFile: any;
+
   // ? -> Propiedad Loading que nos va a determinar cuándo aparece el ícono de carga del html, se debe disparar la carga sólamente en caso de que el programa esté a la espera de una respuesta por parte de una promesa
   loading = false;
 
@@ -79,7 +82,11 @@ export class AgregarPrestadorComponent implements OnInit {
       correo: '',
       horarioAtencion: '',
       pathImages: [], // -> lo conseguimos en la inserción de imágenes
-      meGusta: 0 // -> # de Me gustas en la App
+      meGusta: 0, // -> # de Me gustas en la App
+      pathImagePortada: { // -> lo conseguimos en la inserción de imágenes
+        path:'',
+        url: ''
+      }
     }
 
   } //? -> Fin Constructor
@@ -127,13 +134,17 @@ export class AgregarPrestadorComponent implements OnInit {
       correo: this.createPrestador.value.correo,
       horarioAtencion: this.createPrestador.value.horarioAtencion,
       pathImages: [], // -> lo conseguimos en la inserción de imágenes
-      meGusta: 0 // -> # de Me gustas en la App
+      meGusta: 0, // -> # de Me gustas en la App
+      pathImagePortada: { // -> lo conseguimos en la inserción de imágenes
+        path:'',
+        url: ''
+      }
     }
 
     console.log(this.prestadorTuristico); //Quiero ver lo que mi objeto guardó y se va a mandar a la BD
 
     //Servicio llamando al método para Agregar Prestador Turístico a Firestore
-    this.prestadoresService.agregarPrestador(this.prestadorTuristico, this.files) //DEBO ENVIAR LOS ARCHVOS TAMBIEN y el Proceso de carga de archivos se ejecuta en el servicio
+    this.prestadoresService.agregarPrestador(this.prestadorTuristico, this.files, this.portadaFile) //DEBO ENVIAR LOS ARCHVOS TAMBIEN y el Proceso de carga de archivos se ejecuta en el servicio
     .then(() => {
       //Mensaje
       alert('El prestador fue registrado con éxito');
@@ -156,5 +167,10 @@ export class AgregarPrestadorComponent implements OnInit {
     //console.log(this.files.length); // quiero saber el largo de mi arreglo
   } //? -> Fin Método cargar archivo
 
+  //? -> Método para Cargar la imágen de portada o imágen principal
+  uploadFilePortada($event: any) {
+    this.portadaFile = $event.target.files[0];
+    console.log(this.portadaFile);
+  }
 
 } //? -> Fin clase

@@ -14,7 +14,14 @@ export default interface Place {
   longitud?: number; //Opcional - Aparece en el formulario
   googleMaps?: string; //Opcional - Aparece en el formulario
   meGusta?: number; //Opcional - Se establece un contador que sólo trae el dato en caso de que presionen un ícono, similar al de editar o borrar. Y se enlaza con el id del sitio.
-  pathImages?: string[]; //Array de Paths de Imágenes opcional ya que no se pueden exportar la información en un Json.
+  pathImages?: PathImage[]; //Array de Paths de Imágenes opcional ya que no se pueden exportar la información en un Json.
+  pathImagePortada?: PathImage; //Imagen Principal del Sitio
+}
+
+//Vamos a crear un arreglo de objetos para almacenar el path de las imágenes y sus url de descarga
+interface PathImage {
+  path: string;
+  url: string;
 }
 
 //Interfaz para Prestadoes Turisticos
@@ -41,6 +48,7 @@ export interface PrestadorTuristico extends Place {
   horarioAtencion: string;
   //pathImage?: string[]; -> Se toma por código
   //meGusta?: number; -> Se toma por código
+  //pathImagePortada?: PathImage;
 }
 
 // Interfaz Atractivo turístico
@@ -65,6 +73,7 @@ export interface AtractivoTuristico extends Place {
   redSocial: string;
   //pathImage?: string[];
   //meGusta?: number;
+  //pathImagePortada?: PathImage;
 }
 
 // Interfaz Municipio
@@ -89,6 +98,7 @@ export interface Municipio extends Place {
   //googleMaps?: string;
   //pathImage?: string[];
   //meGusta?: number;
+  //pathImagePortada?: PathImage;
 }
 
 // Interfaz Ruta
@@ -103,44 +113,8 @@ export interface Ruta extends Place {
   //googleMaps?: string;
   //pathImage?: string[];
   //meGusta?: number;
+  //pathImagePortada?: PathImage;
 }
-
-
-//EJEMPLOS
-// const ruta: Ruta = {
-//   informacionAdicional: '',
-//   agenciaDeViajes: '',
-//   name: '',
-//   descripcion: 'Ruta de prueba',
-//   id: '',
-//   latitud: 1,
-//   longitud: 2,
-//   googleMaps: ''
-// }
-
-//Ejemplo Objeto
-// const municipio: Municipio = {
-//   name: 'string',
-//   subregion: 'string',
-//   descripcion: 'string',
-//   poblacion: 'string',
-//   gentilicio: 'string',
-//   clima: 'string',
-//   servicios:'string',
-//   FiestasEventos: 'string',
-//   hechosHistoricos: 'string',
-//   sitioWeb: 'string',
-//   facebook: 'string',
-//   instagram: 'string',
-//   twitter:'string',
-//   youtube: 'string',
-//   //Place
-//   id: 'string',
-//   latitud: 123,
-//   longitud: 456,
-//   googleMaps: '',
-//   pathImage: ['', '', '']
-// }
 
 //Se puede crear otro tipo de interfaces con el fin de modelar otros tipos de datos distintos
 //Ejemplo sería categorías

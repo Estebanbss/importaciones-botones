@@ -36,12 +36,6 @@ export class PrestadoresService {
           meGusta: 0 // -> # de Me gustas en la App
   } )
 
-  //? Propiedad Array de Promesas
-  arregloDePromesas: Promise<any>[]; //Lo utilizamos para guardar nuestras promesas en la carga de archivos al servicio storage y asegurarnos que se cumplan todas para poder trabajar con ellas sin problema.
-
-  //? Array de Promesas para imágenes
-  imagesPromesa: Promise<any>[];
-
   //? -> Inyecciones de Dependencias
   //Inyección de servicios Firebase
   constructor(
@@ -49,9 +43,6 @@ export class PrestadoresService {
     private storage: Storage //Inyectamos el servicio de Storage
     ) {
       //Aquí inicializamos nuestras propiedades de la clase
-      this.arregloDePromesas = [];
-
-      this.imagesPromesa = [];
     }
 
   //? SECCIÓN COMPARTIR INFORMACIÓN
@@ -72,7 +63,16 @@ export class PrestadoresService {
 
   //? Método para generar los empleados e insertarlos en la base de datos
   //Create - C
-  agregarPrestador(prestador: any, files: any): Promise<any> {
+  agregarPrestador(prestador: any, files: any, portadaFile: any): Promise<any> {
+
+    //? Propiedad Array de Promesas para los path
+    const arregloDePromesas: Promise<any>[] = []; //Lo utilizamos para guardar nuestras promesas en la carga de archivos al servicio storage y asegurarnos que se cumplan todas para poder trabajar con ellas sin problema.
+
+    //? Propiedad para almacenar los paths
+    const arrayPaths: any = [];
+
+    //? Array de Promesas para url imágenes
+    const urlPromesa: Promise<any>[] = [];
 
     // console.log(prestador.pathImages.length);
     // console.log(prestador.pathImages);
@@ -95,34 +95,53 @@ export class PrestadoresService {
 
         //? Procedemos a insertar las imágenes una a una en el Storage con el método uploadBytes y guardamos las respuestas en un arreglo de Promesas
         //Creamos un arreglo de promesas con lo que nos devuelve el método uploadBytes
-        this.arregloDePromesas.push(uploadBytes(imgRef, file)); //Método para subir los archivos y retorna Promesas
+        arregloDePromesas.push(uploadBytes(imgRef, file)); //Método para subir los archivos y retorna Promesas
 
       } //Fin del for
 
       //? Necesitamos los datos que dan las respuestas a las promesas de la carga de Imágenes, por eso gestionamos todo con un Promise.all para obtenerlas
       //Utilizamos un Promise all para asegurarnos de que el código no avanza hasta que todas las promesas se cumplan
-      Promise.all(this.arregloDePromesas)
+      Promise.all(arregloDePromesas)
       .then(resultados => {
-
         //Nos retorna un arreglo con las respuestas de las promesas
         //Procedemos a iterar para trabajar con cada resultado y obtener el o los path que queremos guardar
         for( let resultado of resultados) {
           // console.log(resultado);
           const fullPath = resultado.metadata.fullPath;
           // console.log(fullPath);
-          prestador.pathImages.push(fullPath); //Guardamos los Paths en nuestro arreglo pathImages
+          //prestador.pathImages.push(fullPath); //Guardamos los Paths en nuestro arreglo pathImages
+          arrayPaths.push(fullPath); //Tenemos un arreglo con todos los paths a las imágenes que vamos a recuperar
         }
 
-        //? CARGA DE DATOS A FIRESTORE
-        //Creamos una referencia a la colleción
-        const prestadorRef = collection(this.firestore, 'prestadores'); // Servicio y nombre de la colección
-        //Añadimos en un documento la referencia y los datos que lo componen
-        return addDoc(prestadorRef, prestador); // Retorna una Promesa
+        //Vamos a recorrer el arreglo de arrayPaths para traer las URL de descarga de cada referencia y luego encerrar el resultado en un objeto
+        arrayPaths.forEach((path:any) => {
+          // Creamos una referencia a las imágenes que deseamos descargar
+          const pathReference = ref(this.storage, path);
+
+          urlPromesa.push(getDownloadURL(pathReference));
+
+        })
+
+        Promise.all(urlPromesa)
+        .then(results => {
+          for(let [indice, result] of results.entries()) {
+            prestador.pathImages.push({path: arrayPaths[indice] , url: result})
+          }
+          //? CARGA DE DATOS A FIRESTORE
+          //Creamos una referencia a la colleción
+          const prestadorRef = collection(this.firestore, 'prestadores'); // Servicio y nombre de la colección
+          //Añadimos en un documento la referencia y los datos que lo componen
+          return addDoc(prestadorRef, prestador); // Retorna una Promesa
+        })
+        .catch(error => {
+          console.log(error);
+          console.log('Error en el arreglo de Promesas de getDownload');
+        }); //? Fin del Promise.all
 
       })
       .catch(error => {
         console.log(error);
-        console.log('Error en el arreglo de Promesas');
+        console.log('Error en el arreglo de Promesas de uploadBytes');
       }); //? Fin del Promise.all
 
     } else { // Si no hay archivos para cargar
@@ -177,6 +196,9 @@ export class PrestadoresService {
   //Update - U
   actualizarEmpleado(prestador: any, files: any): Promise<any> {
 
+    //? Propiedad Array de Promesas
+    const arregloDePromesas: Promise<any>[] = []; //Lo utilizamos para guardar nuestras promesas en la carga de archivos al servicio storage y asegurarnos que se cumplan todas para poder trabajar con ellas sin problema.
+
     // console.log(prestador.pathImages.length);
     // console.log(prestador.pathImages);
 
@@ -198,13 +220,13 @@ export class PrestadoresService {
 
         //? Procedemos a insertar las imágenes una a una en el Storage con el método uploadBytes y guardamos las respuestas en un arreglo de Promesas
         //Creamos un arreglo de promesas con lo que nos devuelve el método uploadBytes
-        this.arregloDePromesas.push(uploadBytes(imgRef, file)); //Método para subir los archivos y retorna Promesas
+        arregloDePromesas.push(uploadBytes(imgRef, file)); //Método para subir los archivos y retorna Promesas
 
       } //Fin del for
 
       //? Necesitamos los datos que dan las respuestas a las promesas de la carga de Imágenes, por eso gestionamos todo con un Promise.all para obtenerlas
       //Utilizamos un Promise all para asegurarnos de que el código no avanza hasta que todas las promesas se cumplan
-      Promise.all(this.arregloDePromesas)
+      Promise.all(arregloDePromesas)
       .then(resultados => {
 
         //Nos retorna un arreglo con las respuestas de las promesas
@@ -244,8 +266,9 @@ export class PrestadoresService {
 
   //? -> Método para obtener la URL de descarga de las imágenes y poder mostrarlas
   getImages(prestador: any): Promise<any>  {
-    //Arreglo de imágenes que vamos a retornar
-    const images: any = [];
+
+    //? Array de Promesas para imágenes
+    const imagesPromesa: Promise<any>[] = [];
 
     //Vamos a recorrer el arreglo de pathImages de nuestro objeto para traer las URL de descarga de cada referencia
     prestador.pathImages.forEach((path: any) => {
@@ -257,13 +280,13 @@ export class PrestadoresService {
       //const url = await getDownloadURL(pathReference);
 
       //Creamos un arreglo de promesas con lo que nos devuelve el método getDownloadURL
-      this.imagesPromesa.push(getDownloadURL(pathReference));
+      imagesPromesa.push(getDownloadURL(pathReference));
 
       //Guardamos la url descargada en el arreglo de imágenes que vamos a mostrar
       //images.push(url);
     });
 
-    return Promise.all(this.imagesPromesa); //Retornamos la promesa
+    return Promise.all(imagesPromesa); //Retornamos la promesa
 
   }//? Fin del método getImages
 
