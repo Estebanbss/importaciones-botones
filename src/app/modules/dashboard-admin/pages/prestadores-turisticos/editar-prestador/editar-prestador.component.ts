@@ -89,7 +89,11 @@ export class EditarPrestadorComponent  implements OnInit {
       correo: '',
       horarioAtencion: '',
       pathImages: [], // -> lo conseguimos en la inserción de imágenes
-      meGusta: 0 // -> # de Me gustas en la App
+      meGusta: 0, // -> # de Me gustas en la App
+      pathImagePortada: {
+        path: '',
+        url: ''
+      }
     }
 
     //Inicializamos el Observable y nos suscribimos a él para obtener la información
@@ -138,26 +142,27 @@ export class EditarPrestadorComponent  implements OnInit {
 
     //? Método para traer las URL de las imágenes y mostrarlas
     //Ejecutar una validación antes de invocar al método getImages para saber si exísten imagenes que podemos traer de otro modo no es necesario ejecutar el método getImages
-    if(!(this.prestador.pathImages?.length === 0)) {
 
-      this.prestadoresService.getImages(this.prestador)
-      .then(resultados => {
-        //Nos retorna un arreglo con las respuestas de las promesas
-        //Procedemos a iterar para trabajar con cada resultado y obtener el o los path que queremos guardar
-        for( let resultado of resultados) {
-          //console.log(resultado);
-          this.images.push(resultado);
-        }
-        // this.images.forEach((img:any) => {
-        //   console.log(img);
-        // })
-      })
-      .catch(error => {
-        console.log(error);
-        console.log('Error en el arreglo de Promesas');
-      }); //? Fin del Promise.all
+    // if(!(this.prestador.pathImages?.length === 0)) {
 
-    } //? -> Fin Validación
+    //   this.prestadoresService.getImages(this.prestador)
+    //   .then(resultados => {
+    //     //Nos retorna un arreglo con las respuestas de las promesas
+    //     //Procedemos a iterar para trabajar con cada resultado y obtener el o los path que queremos guardar
+    //     for( let resultado of resultados) {
+    //       //console.log(resultado);
+    //       this.images.push(resultado);
+    //     }
+    //     // this.images.forEach((img:any) => {
+    //     //   console.log(img);
+    //     // })
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //     console.log('Error en el arreglo de Promesas');
+    //   }); //? Fin del Promise.all
+
+    //} //? -> Fin Validación
 
 
   } //? -> Fin método Llenar Formulario
@@ -190,7 +195,8 @@ export class EditarPrestadorComponent  implements OnInit {
       correo: this.createPrestador.value.correo,
       horarioAtencion: this.createPrestador.value.horarioAtencion,
       pathImages: this.prestador.pathImages, // -> lo conseguimos en la inserción de imágenes
-      meGusta: this.prestador.meGusta // -> # de Me gustas en la App
+      meGusta: this.prestador.meGusta, // -> # de Me gustas en la App
+      pathImagePortada: this.prestador.pathImagePortada
     }
 
     //Utilizamos el servicio con el método de actualizar los datos en Firestore
