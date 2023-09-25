@@ -33,7 +33,11 @@ export class PrestadoresService {
           correo: '',
           horarioAtencion: '',
           pathImages: [], // -> lo conseguimos en la inserción de imágenes
-          meGusta: 0 // -> # de Me gustas en la App
+          meGusta: 0, // -> # de Me gustas en la App
+          pathImagePortada: { // -> lo conseguimos en la inserción de imágenes
+            path:'',
+            url: ''
+          }
   } )
 
   //? -> Inyecciones de Dependencias
@@ -74,31 +78,52 @@ export class PrestadoresService {
     //? Array de Promesas para url imágenes
     const urlPromesa: Promise<any>[] = [];
 
+    //? Constante para almacenar la Imágnen Principal
+    const promiseImgPrinc: Promise<any>[] = [];
+
     //? -> Código para subir imágen Principal
     if(!(portadaFile.length === 0)) {
       //Creamos la referencia a la dirección donde vamos a cargar la imágen en el Storage
       const imgRef = ref(this.storage, `prestadoresStorage/${prestador.name}/ImagenPrincipal/${portadaFile.name}`);
-      //Insertamos la imágen
-      uploadBytes(imgRef, portadaFile) //? HASTA AQUÍ FUNCIONA
-      .then( async resultado => {
-        //Recogemos el path de la imágen
+
+      promiseImgPrinc.push(uploadBytes(imgRef, portadaFile)); // Insertamos la promesa en la constante
+
+      //Utilizamos el Promise.all para que el código espere la respuesta de las promesas antes de seguir ejecutandose
+      Promise.all(promiseImgPrinc)
+      .then( async resultados => {
+        const resultado = resultados[0];
         const path = resultado.metadata.fullPath;
-        //Creamos la referencia para descargar la imágen
         const pathReference = ref(this.storage, path);
-        //Solicitamos la URL
-        getDownloadURL(pathReference)
-        .then( url => {
-          //Insertamos los datos al prestador
-          prestador.pathImagePortada.path = path;
-          prestador.pathImagePortada.url = url;
-        })
-        .catch(error => {console.log(error)});
+        const url = await getDownloadURL(pathReference);
+        prestador.pathImagePortada.path = path;
+        prestador.pathImagePortada.url = url;
       })
-      .catch(error =>
-        {
-          console.log(error)
-          console.log('Error en Agregar Imagen Portada');
-        })
+      .catch(error => console.log(error));
+
+      // //Insertamos la imágen
+      // uploadBytes(imgRef, portadaFile) //? HASTA AQUÍ FUNCIONA
+      // .then( async resultado => {
+      //   //Recogemos el path de la imágen
+      //   const path = resultado.metadata.fullPath;
+      //   // //Creamos la referencia para descargar la imágen
+      //   const pathReference = ref(this.storage, path);
+      //   // //Solicitamos la URL
+      //   const url = await getDownloadURL(pathReference);
+
+      //   console.log(path);
+      //   console.log(url);
+      //   // .then( url => {
+      //   //   //Insertamos los datos al prestador
+      //   //   prestador.pathImagePortada.path = path;
+      //   //   prestador.pathImagePortada.url = url;
+      //   // })
+      //   // .catch(error => {console.log(error)});
+      // })
+      // .catch(error =>
+      //   {
+      //     console.log(error)
+      //     console.log('Error en Agregar Imagen Principal');
+      //   })
     } //? -> Fin para subir imágen Principal
 
     //? -> Deberíamos ejecutar la carga de archivos antes de guardar los datos en la BD para que se guarde el arreglo de paths de las Imágenes de una vez en Firestore.
