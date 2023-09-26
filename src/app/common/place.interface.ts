@@ -46,7 +46,7 @@ export interface PrestadorTuristico extends Place {
   pagWeb: string;
   correo: string;
   horarioAtencion: string;
-  //pathImage?: string[]; -> Se toma por código
+  //pathImage?: PathImage[]; -> Se toma por código
   //meGusta?: number; -> Se toma por código
   //pathImagePortada?: PathImage;
 }

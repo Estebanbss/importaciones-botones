@@ -235,11 +235,26 @@ export class PrestadoresService {
   //Delete - D
   //Aquí podemos elegir pasar como parámetro el objeto entero con todos los elementos ó sólo el elemento con el que queremos crear la referencia para borrar
   //En este caso pasamos el objeto con todos los elementos
+  //? Aquí borramos los datos de Firestore
   borrarPrestador(prestador: any): Promise<any> {
     //Creamos la referencia al documento que queremos borrar
     const docRef = doc(this.firestore, `prestadores/${prestador.id}`); // Borramos por id
     return deleteDoc(docRef); // Nos retorna una promesa
   } //? Fin método eleminar prestador
+
+  //? Aquí borramos los datos de Storage
+  borrarImagenesPrestador(prestador: any) {
+    //Primero capturamos los datos de path y arreglo de objetos con el path de las imágenes para borrarlas del Storage
+    const pathImgPrincipal = prestador.pathImagePortada.path; //path para borrar imagen portada
+    const arrayPathImages = prestador.pathImages; // arreglo de Objetos de tipo PathImage
+
+    //Primero borramos la imágen de portada
+    //Creamos una referencia a la imágen que deseamos borrar
+    const refImgPrincipal = ref(this.storage, pathImgPrincipal);
+
+    //Luego borramos las imágenes de la galería en un for
+
+  }
 
 
   //? SECCIÓN ACTUALIZAR
