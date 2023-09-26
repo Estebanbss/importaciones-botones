@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, addDoc, collectionData, query, orderBy, doc, deleteDoc, updateDoc } from '@angular/fire/firestore';
-import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
+import { Storage, deleteObject, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PrestadorTuristico } from 'src/app/common/place.interface';
 
@@ -251,10 +251,24 @@ export class PrestadoresService {
     //Primero borramos la imágen de portada
     //Creamos una referencia a la imágen que deseamos borrar
     const refImgPrincipal = ref(this.storage, pathImgPrincipal);
+    //Invocamos al método de firebase para eliminar datos del storage
+    deleteObject(refImgPrincipal)
+    .then(() => {console.log('Se ha borrado la img Principal de: ', prestador.name)})
+    .catch((error) => {console.log('Error al borrar la img Principal: ', error)});
 
     //Luego borramos las imágenes de la galería en un for
+    //Iteramos el arreglo de objetos para acceder a la propiedad del path y eliminar las imágenes
+    arrayPathImages.forEach((pathImage:any) => {
+      //console.log(pathImage.path);
+      //Creamos la referencia
+      const refGaleriaImg = ref(this.storage, pathImage.path);
+      deleteObject(refGaleriaImg)
+      .then(() => {console.log('Se ha borrado la img Galeria')})
+      .catch((error) => {console.log('Error al borrar imgs Galería', error)});
 
-  }
+    })
+
+  } //? -> Fin de Borrar los datos en el Storage
 
 
   //? SECCIÓN ACTUALIZAR

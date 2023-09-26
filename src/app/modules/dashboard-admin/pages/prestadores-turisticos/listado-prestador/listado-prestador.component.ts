@@ -40,7 +40,7 @@ export class ListadoPrestadorComponent implements OnInit {
   //? -> Método para eliminar un Prestador
   eliminarPrestador(prestador: any) {
     //Primero borramos los datos del Storage ya que necesitamos el path de la imágenes que tiene nuestro objeto guardado en Firestore
-    //this.prestadoresService.borrarImagenesPrestador(prestador);
+    this.prestadoresService.borrarImagenesPrestador(prestador);
 
     //Aquí eliminamos los datos de Firestore
     // this.prestadoresService.borrarPrestador(prestador)
