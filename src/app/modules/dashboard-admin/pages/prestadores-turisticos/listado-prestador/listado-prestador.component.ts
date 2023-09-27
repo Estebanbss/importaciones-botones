@@ -43,11 +43,11 @@ export class ListadoPrestadorComponent implements OnInit {
     this.prestadoresService.borrarImagenesPrestador(prestador);
 
     //Aquí eliminamos los datos de Firestore
-    // this.prestadoresService.borrarPrestador(prestador)
-    // .then(() => {
-    //   alert('Prestador Turistico Eliminado');
-    // })
-    // .catch(error => console.log(error));
+    this.prestadoresService.borrarPrestador(prestador)
+    .then(() => {
+      alert('Prestador Turistico Eliminado');
+    })
+    .catch(error => console.log(error));
   }
 
   //? -> Método para obtener objeto a actualizar y enviarlo por medio de Observables
