@@ -5,7 +5,6 @@ import { DashboardAdminRoutingModule } from './dashboard-admin-routing.module';
 import { ReactiveFormsModule } from '@angular/forms'; //Formularios Reactivos
 
 import { PaginaInicioComponent } from './pages/pagina-inicio/pagina-inicio.component';
-import { ListadoPrestadorComponent } from './pages/prestadores-turisticos/listado-prestador/listado-prestador.component';
 import { ListadoAtractivoComponent } from './pages/atractivos-turisticos/listado-atractivo/listado-atractivo.component';
 import { ListadoMunicipioComponent } from './pages/municipios/listado-municipio/listado-municipio.component';
 import { ListadoRutasComponent } from './pages/rutas-turisticas/listado-rutas/listado-rutas.component';
@@ -18,13 +17,15 @@ import { EditarMunicipioComponent } from './pages/municipios/editar-municipio/ed
 import { AgregarRutasComponent } from './pages/rutas-turisticas/agregar-rutas/agregar-rutas.component';
 import { EditarRutasComponent } from './pages/rutas-turisticas/editar-rutas/editar-rutas.component';
 
+import { ListadoPrestadorComponent } from './pages/prestadores-turisticos/listado-prestador/listado-prestador.component';
+
 
 @NgModule({
   declarations: [
     PaginaInicioComponent,
-    ListadoPrestadorComponent,
     ListadoAtractivoComponent,
     ListadoMunicipioComponent,
+    ListadoPrestadorComponent,
     ListadoRutasComponent,
     AgregarPrestadorComponent,
     EditarPrestadorComponent,
@@ -33,12 +34,15 @@ import { EditarRutasComponent } from './pages/rutas-turisticas/editar-rutas/edit
     AgregarMunicipioComponent,
     EditarMunicipioComponent,
     AgregarRutasComponent,
-    EditarRutasComponent
+    EditarRutasComponent,
+
+
   ],
   imports: [
     CommonModule,
     DashboardAdminRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
   ]
 })
 export class DashboardAdminModule { }

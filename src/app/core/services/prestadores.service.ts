@@ -82,7 +82,7 @@ export class PrestadoresService {
     const promiseImgPrinc: Promise<any>[] = [];
 
     //? -> Código para subir imágen Principal
-    if(!(portadaFile.length === 0)) {
+    if(!(portadaFile === undefined)) {
       //Creamos la referencia a la dirección donde vamos a cargar la imágen en el Storage
       const imgRef = ref(this.storage, `prestadoresStorage/${prestador.name}/ImagenPrincipal/${portadaFile.name}`);
 

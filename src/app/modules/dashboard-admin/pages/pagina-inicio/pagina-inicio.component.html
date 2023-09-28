@@ -1,27 +1,33 @@
 <!-- Página para navegar entres módulos -->
 <div class="">
-  <div class="min-h-screen min-w-screen">
+  <div class="min-h-screen min-w-screen flex flex-row">
     <!-- Sidebar -->
-    <aside *ngIf="ha"class="bg-indigo-600 w-45 h-52 absolute">
-      <div class="text-white text-2xl text-center font-semibold">Secciones</div>
+    <aside *ngIf="cerrado"class="absolute bg-indigo-600  min-h-screen p-4">
+      <div class="text-white text-4xl text-center  mt-24 font-bold">Pa'l Huila Admin</div>
+      <div class="text-white text-3xl text-center  mt-10 font-bold">Secciones</div>
       <ul class="mt-6">
-          <li class="mb-3 text-center">
+          <li class="mb-3 text-center active:bg-indigo-500 h-10 justify-center">
               <a class="text-white hover:text-indigo-200 " routerLink="list-prestadores-turisticos">Prestadores Turísticos</a>
           </li>
-          <li class="mb-3 text-center">
+          <li class="mb-3 text-center  active:bg-indigo-500 h-10 justify-center">
               <a class="text-white hover:text-indigo-200 " routerLink="list-atractivo-turistico">Atractivos Turísticos</a>
           </li>
-          <li class="mb-3 text-center">
+          <li class="mb-3 text-center  active:bg-indigo-500 h-10 justify-center">
               <a class="text-white hover:text-indigo-200 " routerLink="list-municipio">Municipios</a>
           </li>
-          <li class="mb-3 text-center">
+          <li class="mb-3 text-center  active:bg-indigo-500 h-10 justify-center">
               <a class="text-white hover:text-indigo-200 " routerLink="list-rutas-turisticas">Rutas Turísticas</a>
           </li>
       </ul>
     </aside>
-    <button class="absolute bottom-0" (click)="hidden()">BOTÓN</button>
+    <section class="xl:min-w-[1280px] xl:max-w-[1280px] max-w-screen-lg mx-auto">
+      <router-outlet class=""></router-outlet>
+
+    </section>
+    <button (click)="suich()" class="absolute"><svg *ngIf="cerrado" class="fill-white" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M508-481 310-679l65-65 263 263-263 262-65-65 198-197Z"/></svg>
+      <svg *ngIf="!cerrado" class="fill-indigo-500" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M561-219 298-481l263-263 65 65-198 198 198 197-65 65Z"/></svg></button>
     <!-- Vistas -->
-    <router-outlet></router-outlet> <!-- Se coloca donde queremos que se muestren las vistas de las rutas -->
+  <!-- Se coloca donde queremos que se muestren las vistas de las rutas -->
   </div>
 </div>
 

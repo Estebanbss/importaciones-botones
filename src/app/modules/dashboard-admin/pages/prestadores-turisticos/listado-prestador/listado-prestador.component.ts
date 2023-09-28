@@ -3,12 +3,15 @@ import { Router } from '@angular/router';
 import { PrestadorTuristico } from 'src/app/common/place.interface';
 import { PrestadoresService } from 'src/app/core/services/prestadores.service';
 
+
+
 @Component({
   selector: 'app-listado-prestador',
   templateUrl: './listado-prestador.component.html',
-  styleUrls: ['./listado-prestador.component.css']
+  styleUrls: ['./listado-prestador.component.css'],
 })
 export class ListadoPrestadorComponent implements OnInit {
+
 
   //? -> Propiedad para almacenar el arreglo de objetos que nos va a traer la BD al disparar el método getPrestadores, la utilizamos para Bandear los datos en el html de list y mostrar los datos
   prestadores: PrestadorTuristico[] = [];
