@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData, query, orderBy, doc, deleteDoc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, collectionData, query, orderBy, doc, deleteDoc, updateDoc, getDocs } from '@angular/fire/firestore';
 import { Storage, deleteObject, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PrestadorTuristico } from 'src/app/common/place.interface';
@@ -64,6 +64,21 @@ export class PrestadoresService {
   }
 
   //? SECCIÓN AGREGAR
+
+  async agregarPrestadoresImportacion(prestadores: PrestadorTuristico[]): Promise<any>{
+    const prestadorRef = collection(this.firestore, 'prestadores');
+    try {
+      const promesas = prestadores.map(prestador => addDoc(prestadorRef, prestador));
+      const resultados = await Promise.all(promesas);
+      alert("Se importaron las importaciones bien importadas")
+      return resultados;
+
+    } catch (error) {
+      console.error('Error al agregar prestadores:', error);
+      // Manejar el error según sea necesario
+      return [];
+    }
+  }
 
   //? Método para generar los empleados e insertarlos en la base de datos
   //Create - C
@@ -232,6 +247,17 @@ export class PrestadoresService {
   //? SECCIÓN BORRAR
 
   //? -> Método para eliminar datos de la BD
+
+  async borrarTodosLosDocumentos() {
+    const collectionRef = collection(this.firestore, 'prestadores');
+
+    const querySnapshot = await getDocs(collectionRef);
+
+    querySnapshot.forEach((doc) => {
+      this.borrarPrestador(doc);
+    });
+  }
+
   //Delete - D
   //Aquí podemos elegir pasar como parámetro el objeto entero con todos los elementos ó sólo el elemento con el que queremos crear la referencia para borrar
   //En este caso pasamos el objeto con todos los elementos
@@ -242,33 +268,48 @@ export class PrestadoresService {
     return deleteDoc(docRef); // Nos retorna una promesa
   } //? Fin método eleminar prestador
 
-  //? Aquí borramos los datos de Storage
+  //? Aquí borramos los datos de Storage para la opción de borrado en el Listado
   borrarImagenesPrestador(prestador: any) {
     //Primero capturamos los datos de path y arreglo de objetos con el path de las imágenes para borrarlas del Storage
     const pathImgPrincipal = prestador.pathImagePortada.path; //path para borrar imagen portada
     const arrayPathImages = prestador.pathImages; // arreglo de Objetos de tipo PathImage
 
+    // Tenemos que hacer validación de si exíste algo qué borrar, ya que si se borra la imágen Principal en la actualización y se trata de borra todo el objeto en el listado y no exíste path entonces nos dispara un error y no nos deja borrar el elemento.
+
     //Primero borramos la imágen de portada
-    //Creamos una referencia a la imágen que deseamos borrar
-    const refImgPrincipal = ref(this.storage, pathImgPrincipal);
-    //Invocamos al método de firebase para eliminar datos del storage
-    deleteObject(refImgPrincipal)
-    .then(() => {console.log('Se ha borrado la img Principal de: ', prestador.name)})
-    .catch((error) => {console.log('Error al borrar la img Principal: ', error)});
+    // Validación para borrar imágenes Principales
+    if(!(pathImgPrincipal === '')) {
+      //Creamos una referencia a la imágen que deseamos borrar
+      const refImgPrincipal = ref(this.storage, pathImgPrincipal);
+      //Invocamos al método de firebase para eliminar datos del storage
+      deleteObject(refImgPrincipal)
+      .then(() => {console.log('Se ha borrado la img Principal de: ', prestador.name)})
+      .catch((error) => {console.log('Error al borrar la img Principal: ', error)});
+      // console.log('Tiene imágen Principal');
+      // console.log(pathImgPrincipal);
+    } else {
+      console.log('No tiene imágen Principal');
+      console.log(pathImgPrincipal);
+    }
 
     //Luego borramos las imágenes de la galería en un for
-    //Iteramos el arreglo de objetos para acceder a la propiedad del path y eliminar las imágenes
-    arrayPathImages.forEach((pathImage:any) => {
-      //console.log(pathImage.path);
-      //Creamos la referencia
-      const refGaleriaImg = ref(this.storage, pathImage.path);
-      deleteObject(refGaleriaImg)
-      .then(() => {console.log('Se ha borrado la img Galeria')})
-      .catch((error) => {console.log('Error al borrar imgs Galería', error)});
+    // Validación para borrar imágenes de Galería
+    if(!(arrayPathImages.length === 0)) {
+      //Iteramos el arreglo de objetos para acceder a la propiedad del path y eliminar las imágenes
+      arrayPathImages.forEach((pathImage:any) => {
+        //console.log(pathImage.path);
+        //Creamos la referencia
+        const refGaleriaImg = ref(this.storage, pathImage.path);
+        deleteObject(refGaleriaImg)
+        .then(() => {console.log('Se ha borrado la img Galeria')})
+        .catch((error) => {console.log('Error al borrar imgs Galería', error)});
+      })
+    } else {
+      console.log('El arreglo NO tiene elementos');
+      console.log(arrayPathImages);
+    }
 
-    })
-
-  } //? -> Fin de Borrar los datos en el Storage
+  } //? -> Fin de Borrar los datos en el Storage para la opción de borrado en el Listado
 
 
   //? SECCIÓN ACTUALIZAR

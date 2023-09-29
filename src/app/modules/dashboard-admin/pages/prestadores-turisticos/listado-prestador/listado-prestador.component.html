@@ -17,9 +17,15 @@
       <!-- Botón Para llevarnos al componente de Agregar Prestador -->
       <div class="flex justify-end gap-4">
 
-        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" routerLink="/dashboard-admin/pagina-inicio/agregar-prestadores-turisticos">Importar</button>
+        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" (click)="borrartodo()">ELIMINAR TODO</button>
+        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" (click)="openmodal()" >Importar</button>
+
         <!---->
-        <app-import></app-import>
+        <div class="" *ngIf="modalsuich === true">
+
+          <app-import></app-import>
+
+        </div>
        <!---->
         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" routerLink="/dashboard-admin/pagina-inicio/agregar-prestadores-turisticos">Agregar</button>
       </div>
