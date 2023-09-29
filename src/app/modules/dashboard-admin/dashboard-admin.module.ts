@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ImportModule } from 'src/app/modules/import/import.module';
 
 import { DashboardAdminRoutingModule } from './dashboard-admin-routing.module';
 import { ReactiveFormsModule } from '@angular/forms'; //Formularios Reactivos
@@ -16,7 +17,6 @@ import { AgregarMunicipioComponent } from './pages/municipios/agregar-municipio/
 import { EditarMunicipioComponent } from './pages/municipios/editar-municipio/editar-municipio.component';
 import { AgregarRutasComponent } from './pages/rutas-turisticas/agregar-rutas/agregar-rutas.component';
 import { EditarRutasComponent } from './pages/rutas-turisticas/editar-rutas/editar-rutas.component';
-
 import { ListadoPrestadorComponent } from './pages/prestadores-turisticos/listado-prestador/listado-prestador.component';
 
 
@@ -37,11 +37,13 @@ import { ListadoPrestadorComponent } from './pages/prestadores-turisticos/listad
     EditarRutasComponent,
 
 
+
   ],
   imports: [
     CommonModule,
     DashboardAdminRoutingModule,
     ReactiveFormsModule,
+    ImportModule
 
   ]
 })

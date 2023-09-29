@@ -15,7 +15,6 @@ export class ImportComponent {
 
   data:any = [];
   progress:number = 0;
-  color='primary'
   mode='determinate'
   value:any=0
 

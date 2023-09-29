@@ -9,6 +9,10 @@ import { ImportComponent } from './import.component';
   imports: [
     CommonModule,
     MatProgressBarModule,
+  ],
+
+  exports:[
+    ImportComponent
   ]
 })
 export class ImportModule { }

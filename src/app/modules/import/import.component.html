@@ -1,4 +1,17 @@
-<mat-progress-bar mode="determinate" [value]="value"> </mat-progress-bar>
+<div class=" absolute flex justify-center items-center top-0 left-0 right-0 bottom-0">
+
+  <div class="relative flex-col justify-center w-[90%] h-[90%]  xl:w-[500px] xl:h-[500px] mx-auto bg-slate-500  ">
+
+    <mat-progress-bar mode="determinate" [value]="value"> </mat-progress-bar>
+
+<div class="flex justify-center items-center h-full my-auto">
+  <input class="px-4 py-4  file:bg-white file:stroke-none file:border-none file:py-2 file:px-2 file:rounded-sm block w-[50%] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" (change)="fileUpload($event)" accept=".xls,.xlsx"  type="file" multiple>
+</div>
 
 
-<input type="file" id="archivo" name="fileUpload" (change)="fileUpload($event)" accept=".xls,.xlsx" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    <button class="absolute top-5 right-5">x</button>
+
+  </div>
+</div>
+
+
