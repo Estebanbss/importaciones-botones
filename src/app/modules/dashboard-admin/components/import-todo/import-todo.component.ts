@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import * as XLSX from 'xlsx';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ModalServiceService } from 'src/app/core/services/modal-service.service';
-import { PrestadorTuristico } from 'src/app/common/place.interface';
+import { AtractivoTuristico, Municipio, PrestadorTuristico, Ruta } from 'src/app/common/place.interface';
 import { PrestadoresService } from 'src/app/core/services/prestadores.service';
 
 
@@ -42,6 +42,79 @@ export class ImportTodoComponent {
       }
     }
 
+    this.atractivoTuristico = {
+      //id -> Nos lo da firebase
+      name: '',
+      bienOLugar: '',
+      descripcion: '',
+      clima: '',
+      zona: '',
+      municipio: '',
+      direccionBarrioVereda: '',
+      indicacionesAcceso: '',
+      googleMaps: '',
+      latitud: 0,
+      longitud: 0,
+      actividades: '',
+      horarioAtencion: '',
+      recomendaciones: '',
+      administrador: '',
+      contactoAdmin : '',
+      redSocial: '',
+      pathImages: [], // -> lo conseguimos en la inserción de imágenes
+      meGusta: 0, // -> # de Me gustas en la App
+      pathImagePortada: { // -> lo conseguimos en la inserción de imágenes
+        path:'',
+        url: ''
+      }
+    }
+
+
+    this.municipio = {
+      //id -> Nos lo da firebase
+      name: '',
+      descripcion: '',
+      servicios: '',
+      gentilicio: '',
+      clima: "",
+      zona: '',
+      poblacion: '',
+      googleMaps: '',
+      latitud: 0,
+      longitud: 0,
+      facebook: '',
+      twitter: '',
+      youtube: '',
+      FiestasEventos: '',
+      hechosHistoricos: '',
+      instagram: '',
+      sitioWeb: '',
+      pathImages: [], // -> lo conseguimos en la inserción de imágenes
+      meGusta: 0, // -> # de Me gustas en la App
+      pathImagePortada: { // -> lo conseguimos en la inserción de imágenes
+        path:'',
+        url: ''
+      }
+    }
+
+    this.ruta = {
+      //id -> Nos lo da firebase
+      name: '',
+      descripcion: '',
+      googleMaps: '',
+      latitud: 0,
+      longitud: 0,
+      informacionAdicional: '',
+      agenciaDeViajes: '',
+      pathImages: [], // -> lo conseguimos en la inserción de imágenes
+      // meGusta: 0, // -> # de Me gustas en la App
+      pathImagePortada: { // -> lo conseguimos en la inserción de imágenes
+        path:'',
+        url: ''
+      }
+    }
+
+
 
   }
 
@@ -69,16 +142,28 @@ export class ImportTodoComponent {
 
    // ? -> Propiedad de tipo Object que va a almacenar nuestros datos y se va a pasar a Firestore
    prestadorTuristico: PrestadorTuristico;//almacena los datos del prestador turistico
-
-
+   atractivoTuristico: AtractivoTuristico;//almacena los datos del atractivo turistico
+   municipio: Municipio;//almacena los datos del  municipio
+   ruta: Ruta;//almacena los datos de la ruta
   //? -> Propiedad para almacenar la imágen de portada antes de cargarla a la BD
   portadaFile: any;
 
   prestarrays:any=[]
+  prestarrays2:any=[]
+  prestarrays3:any=[]
+  prestarrays4:any=[]
 
 
 datocurioso(){
+  console.log(this.data)
+  console.log(this.data[0])
+  console.log(this.data[1])
+  console.log(this.data[2])
+  console.log(this.data[3])
   this.prestarrays=[]
+  this.prestarrays2=[]
+  this.prestarrays3=[]
+  this.prestarrays4=[]
 
   for (let index = 0; index < this.data[0].length; index++) {
     this.prestadorTuristico = {
@@ -109,10 +194,95 @@ datocurioso(){
         url: ''
       }
     }
+
     this.prestarrays.push(this.prestadorTuristico)
   }
 
+  for (let index = 0; index < this.data[1].length; index++) {
+    this.atractivoTuristico = {
+      //id -> Nos lo da firebase
+      name: this.data[1][index].name === undefined  ? '--' : this.data[1][index].name,
+      bienOLugar: this.data[1][index].bienOLugar === undefined  ? '--' : this.data[1][index].bienOLugar,
+      descripcion: this.data[1][index].descripcion === undefined  ? '--' : this.data[1][index].descripcion,
+      clima: this.data[1][index].clima === undefined  ? '--' : this.data[1][index].clima,
+      zona: this.data[1][index].zona === undefined  ? '--' : this.data[1][index].zona,
+      municipio: this.data[1][index].municipio === undefined  ? '--' : this.data[1][index].municipio,
+      direccionBarrioVereda: this.data[1][index].direccionBarrioVereda === undefined  ? '--' : this.data[1][index].direccionBarrioVereda,
+      indicacionesAcceso: this.data[1][index].indicacionesAcceso === undefined  ? '--' : this.data[1][index].indicacionesAcceso,
+      googleMaps: this.data[1][index].googleMaps === undefined  ? '--' : this.data[1][index].googleMaps,
+      latitud: this.data[1][index].latitud === undefined  ? '0' : this.data[1][index].latitud,
+      longitud: this.data[1][index].longitud === undefined  ? '0' : this.data[1][index].longitud,
+      actividades: this.data[1][index].actividades === undefined  ? '--' : this.data[1][index].actividades,
+      horarioAtencion: this.data[1][index].horarioAtencion === undefined  ? '--' : this.data[1][index].horarioAtencion,
+      recomendaciones: this.data[1][index].recomendaciones === undefined  ? '--' : this.data[1][index].recomendaciones,
+      administrador: this.data[1][index].administrador === undefined  ? '--' : this.data[1][index].administrador,
+      contactoAdmin : this.data[1][index].contactoAdmin === undefined  ? '--' : this.data[1][index].contactoAdmin,
+      redSocial: this.data[1][index].redSocial === undefined  ? '--' : this.data[1][index].redSocial,
+     pathImages: [], // -> lo conseguimos en la inserción de imágenes
+     meGusta: 0, // -> # de Me gustas en la App
+     pathImagePortada: { // -> lo conseguimos en la inserción de imágenes
+       path:'',
+       url: ''
+     }
+   }
+   this.prestarrays2.push(this.atractivoTuristico)
+  }
+
+  for (let index = 0; index < this.data[2].length; index++) {
+   this.municipio = {
+    //id -> Nos lo da firebase
+    name: this.data[2][index].name === undefined  ? '--' : this.data[2][index].name,
+    descripcion: this.data[2][index].descripcion === undefined  ? '--' : this.data[2][index].descripcion,
+    servicios: this.data[2][index].servicios === undefined  ? '--' : this.data[2][index].servicios,
+    gentilicio: this.data[2][index].gentilicio === undefined  ? '--' : this.data[2][index].gentilicio,
+    clima: this.data[2][index].clima === undefined  ? '--' : this.data[2][index].clima,
+    zona: this.data[2][index].zona === undefined  ? '--' : this.data[2][index].zona,
+    poblacion: this.data[2][index].poblacion === undefined  ? '--' : this.data[2][index].poblacion,
+    googleMaps: this.data[2][index].googleMaps === undefined  ? '--' : this.data[2][index].googleMaps,
+    latitud: this.data[2][index].latitud === undefined  ? '0' : this.data[2][index].latitud,
+    longitud: this.data[2][index].longitud === undefined  ? '0' : this.data[2][index].longitud,
+    facebook: this.data[2][index].facebook === undefined  ? '--' : this.data[2][index].facebook,
+    twitter: this.data[2][index].twitter === undefined  ? '--' : this.data[2][index].twitter,
+    youtube: this.data[2][index].youtube === undefined  ? '--' : this.data[2][index].youtube,
+    FiestasEventos: this.data[2][index].FiestasEventos === undefined  ? '--' : this.data[2][index].FiestasEventos,
+    hechosHistoricos: this.data[2][index].hechosHistoricos === undefined  ? '--' : this.data[2][index].hechosHistoricos,
+    instagram: this.data[2][index].instagram === undefined  ? '--' : this.data[2][index].instagram,
+    sitioWeb: this.data[2][index].sitioWeb === undefined  ? '--' : this.data[2][index].sitioWeb,
+    pathImages: [], // -> lo conseguimos en la inserción de imágenes
+    meGusta: 0, // -> # de Me gustas en la App
+    pathImagePortada: { // -> lo conseguimos en la inserción de imágenes
+      path:'',
+      url: ''
+    }
+  }
+  this.prestarrays3.push(this.municipio)
+}
+
+for (let index = 0; index < this.data[2].length; index++) {
+  this.ruta = {
+    //id -> Nos lo da firebase
+    name: this.data[3][index].name === undefined  ? '--' : this.data[3][index].name,
+    descripcion: this.data[3][index].descripcion === undefined  ? '--' : this.data[3][index].descripcion,
+    googleMaps: this.data[3][index].googleMaps === undefined  ? '--' : this.data[3][index].googleMaps,
+    latitud: this.data[3][index].latitud === undefined  ? '--' : this.data[3][index].latitud,
+    longitud: this.data[3][index].longitud === undefined  ? '--' : this.data[3][index].longitud,
+    informacionAdicional: this.data[3][index].informacionAdicional === undefined  ? '--' : this.data[3][index].informacionAdicional,
+    agenciaDeViajes: this.data[3][index].agenciaDeViajes === undefined  ? '--' : this.data[3][index].agenciaDeViajes,
+    pathImages: [], // -> lo conseguimos en la inserción de imágenes
+    meGusta: 0, // -> # de Me gustas en la App
+    pathImagePortada: { // -> lo conseguimos en la inserción de imágenes
+      path:'',
+      url: ''
+    }
+  }
+  this.prestarrays4.push(this.ruta)
+}
+
+
   this.prestadoresService.agregarPrestadoresImportacion(this.prestarrays)
+  this.prestadoresService.agregarAtractivoImportacion(this.prestarrays2)
+  this.prestadoresService.agregarMunicipioImportacion(this.prestarrays3)
+  this.prestadoresService.agregarRutasImportacion(this.prestarrays4)
 }
 
 

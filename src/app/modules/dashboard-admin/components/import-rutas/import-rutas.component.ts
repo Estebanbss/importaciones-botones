@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import * as XLSX from 'xlsx';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ModalServiceService } from 'src/app/core/services/modal-service.service';
-import { PrestadorTuristico } from 'src/app/common/place.interface';
+import {Ruta} from 'src/app/common/place.interface';
 import { PrestadoresService } from 'src/app/core/services/prestadores.service';
 
 @Component({
@@ -12,29 +12,17 @@ import { PrestadoresService } from 'src/app/core/services/prestadores.service';
 })
 export class ImportRutasComponent {
   constructor( private MatProgressBarModule: MatProgressBarModule, private modalService: ModalServiceService,     private prestadoresService: PrestadoresService,) {
-    this.prestadorTuristico = {
+    this.ruta = {
       //id -> Nos lo da firebase
       name: '',
-      rntRm: '',
       descripcion: '',
-      servicios: '',
-      zona: '',
-      municipio: '',
-      direccion: '',
-      indicacionesAcceso: '',
       googleMaps: '',
       latitud: 0,
       longitud: 0,
-      whatsapp: 0,
-      celular1: 0,
-      celular2: 0,
-      facebook: '',
-      instagram: '',
-      pagWeb: '',
-      correo: '',
-      horarioAtencion: '',
+      informacionAdicional: '',
+      agenciaDeViajes: '',
       pathImages: [], // -> lo conseguimos en la inserción de imágenes
-      meGusta: 0, // -> # de Me gustas en la App
+      // meGusta: 0, // -> # de Me gustas en la App
       pathImagePortada: { // -> lo conseguimos en la inserción de imágenes
         path:'',
         url: ''
@@ -60,14 +48,13 @@ export class ImportRutasComponent {
   progress:number = 0;//almacena el progreso de la carga del archivo
   mode='determinate'//modo de la barra de progreso
   value:any=0//valor de la barra de progreso
-
 //* ->-----------------------------------------------------------------------
 
   // ? -> Propiedad para almacenar los archivos antes de cargarlos a la BD
   files: any[] = []; //Presupongo que los archivos son un arreglo de tipo any, no estoy seguro
 
    // ? -> Propiedad de tipo Object que va a almacenar nuestros datos y se va a pasar a Firestore
-   prestadorTuristico: PrestadorTuristico;//almacena los datos del prestador turistico
+  ruta: Ruta;//almacena los datos del prestador turistico
 
 
   //? -> Propiedad para almacenar la imágen de portada antes de cargarla a la BD
@@ -80,27 +67,15 @@ datocurioso(){
   this.prestarrays=[]
 
   for (let index = 0; index < this.data[0].length; index++) {
-    this.prestadorTuristico = {
+    this.ruta = {
       //id -> Nos lo da firebase
       name: this.data[0][index].name === undefined  ? '--' : this.data[0][index].name,
-      rntRm: this.data[0][index].rntRm === undefined  ? '--' : this.data[0][index].rntRm,
       descripcion: this.data[0][index].descripcion === undefined  ? '--' : this.data[0][index].descripcion,
-      servicios: this.data[0][index].servicios === undefined  ? '--' : this.data[0][index].servicios,
-      zona: this.data[0][index].zona === undefined  ? '--' : this.data[0][index].zona,
-      municipio: this.data[0][index].municipio === undefined  ? '--' : this.data[0][index].municipio,
-      direccion: this.data[0][index].direccion === undefined  ? '--' : this.data[0][index].direccion,
-      indicacionesAcceso: this.data[0][index].indicacionesAcceso === undefined  ? '--' : this.data[0][index].indicacionesAcceso,
       googleMaps: this.data[0][index].googleMaps === undefined  ? '--' : this.data[0][index].googleMaps,
-      latitud:this.data[0][index].latitud === undefined  ? '--' : this.data[0][index].latitud,
-      longitud:this.data[0][index].longitud === undefined  ? '0' : this.data[0][index].longitud,
-      whatsapp:this.data[0][index].whatsapp === undefined  ? '0' : this.data[0][index].whatsapp,
-      celular1:this.data[0][index].celular1 === undefined  ? '0' : this.data[0][index].celular1,
-      celular2:this.data[0][index].celular2 === undefined  ? '0' : this.data[0][index].celular2,
-      facebook: this.data[0][index].facebook === undefined  ? '--' : this.data[0][index].facebook,
-      instagram: this.data[0][index].instagram === undefined  ? '--' : this.data[0][index].instagram,
-      pagWeb: this.data[0][index].pagWeb === undefined  ? '--' : this.data[0][index].pagWeb,
-      correo: this.data[0][index].correo === undefined  ? '--' : this.data[0][index].correo,
-      horarioAtencion: this.data[0][index].horarioAtencion === undefined  ? '--' : this.data[0][index].horarioAtencion,
+      latitud: this.data[0][index].latitud === undefined  ? '--' : this.data[0][index].latitud,
+      longitud: this.data[0][index].longitud === undefined  ? '--' : this.data[0][index].longitud,
+      informacionAdicional: this.data[0][index].informacionAdicional === undefined  ? '--' : this.data[0][index].informacionAdicional,
+      agenciaDeViajes: this.data[0][index].agenciaDeViajes === undefined  ? '--' : this.data[0][index].agenciaDeViajes,
       pathImages: [], // -> lo conseguimos en la inserción de imágenes
       meGusta: 0, // -> # de Me gustas en la App
       pathImagePortada: { // -> lo conseguimos en la inserción de imágenes
@@ -108,14 +83,11 @@ datocurioso(){
         url: ''
       }
     }
-    this.prestarrays.push(this.prestadorTuristico)
+    this.prestarrays.push(this.ruta)
   }
 
-  this.prestadoresService.agregarPrestadoresImportacion(this.prestarrays)
+  this.prestadoresService.agregarRutasImportacion(this.prestarrays)
 }
-
-
-
 
 //?metodo para subir el archivo
   fileUpload(event:any){

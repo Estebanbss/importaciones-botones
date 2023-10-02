@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, addDoc, collectionData, query, orderBy, doc, deleteDoc, updateDoc, getDocs } from '@angular/fire/firestore';
 import { Storage, deleteObject, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AtractivoTuristico, Municipio, PrestadorTuristico } from 'src/app/common/place.interface';
+import { AtractivoTuristico, Municipio, PrestadorTuristico, Ruta } from 'src/app/common/place.interface';
 
 
 @Injectable({
@@ -90,6 +90,7 @@ export class PrestadoresService {
 
     } catch (error) {
       console.error('Error al agregar los atractivos:', error);
+      alert("Error al agregar los atractivos")
       // Manejar el error según sea necesario
       return [];
     }
@@ -109,34 +110,22 @@ export class PrestadoresService {
       return [];
     }
   }
-  async agregarRutasImportacion(prestadores: PrestadorTuristico[]): Promise<any>{
-    const prestadorRef = collection(this.firestore, 'prestadores');
+  async agregarRutasImportacion(rutas: Ruta[]): Promise<any>{
+    const rutaRef = collection(this.firestore, 'rutas');
     try {
-      const promesas = prestadores.map(prestador => addDoc(prestadorRef, prestador));
+      const promesas = rutas.map(ruta => addDoc(rutaRef, ruta));
       const resultados = await Promise.all(promesas);
-      alert("Se importaron las importaciones bien importadas")
+      alert("Se importaron las rutas correctamente!")
       return resultados;
 
     } catch (error) {
-      console.error('Error al agregar prestadores:', error);
+      console.error('Error al agregar rutas:', error);
+      alert("Error al agregar las rutas");
       // Manejar el error según sea necesario
       return [];
     }
   }
-  async agregarTodoImportacion(prestadores: PrestadorTuristico[]): Promise<any>{
-    const prestadorRef = collection(this.firestore, 'prestadores');
-    try {
-      const promesas = prestadores.map(prestador => addDoc(prestadorRef, prestador));
-      const resultados = await Promise.all(promesas);
-      alert("Se importaron las importaciones bien importadas")
-      return resultados;
 
-    } catch (error) {
-      console.error('Error al agregar prestadores:', error);
-      // Manejar el error según sea necesario
-      return [];
-    }
-  }
 
   //? Método para generar los empleados e insertarlos en la base de datos
   //Create - C
