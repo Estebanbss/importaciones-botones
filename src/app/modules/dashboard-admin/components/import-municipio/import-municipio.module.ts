@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ImportMunicipioComponent } from './import-municipio.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { ImportComponent } from './import.component';
+
 
 
 @NgModule({
-  declarations: [ImportComponent],
+  declarations: [
+    ImportMunicipioComponent
+  ],
   imports: [
     CommonModule,
-    MatProgressBarModule,
+    MatProgressBarModule
   ],
-
   exports:[
-    ImportComponent
+    ImportMunicipioComponent
   ]
 })
-export class ImportModule { }
+export class ImportMunicipioModule { }

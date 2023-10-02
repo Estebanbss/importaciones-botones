@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, addDoc, collectionData, query, orderBy, doc, deleteDoc, updateDoc, getDocs } from '@angular/fire/firestore';
 import { Storage, deleteObject, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { PrestadorTuristico } from 'src/app/common/place.interface';
+import { AtractivoTuristico, Municipio, PrestadorTuristico } from 'src/app/common/place.interface';
 
 
 @Injectable({
@@ -66,6 +66,64 @@ export class PrestadoresService {
   //? SECCIÓN AGREGAR
 
   async agregarPrestadoresImportacion(prestadores: PrestadorTuristico[]): Promise<any>{
+    const prestadorRef = collection(this.firestore, 'prestadores');
+    try {
+      const promesas = prestadores.map(prestador => addDoc(prestadorRef, prestador));
+      const resultados = await Promise.all(promesas);
+      alert("Se importaron los prestadores correctamente!")
+      return resultados;
+
+    } catch (error) {
+      console.error('Error al agregar prestadores:', error);
+      alert('Error al agregar los prestadores:');
+      // Manejar el error según sea necesario
+      return [];
+    }
+  }
+  async agregarAtractivoImportacion(atractivos: AtractivoTuristico[]): Promise<any>{
+    const prestadorRef = collection(this.firestore, 'atractivos');
+    try {
+      const promesas = atractivos.map(atractivo=> addDoc(prestadorRef, atractivo));
+      const resultados = await Promise.all(promesas);
+      alert("Se importaron los atractivos correctamente!")
+      return resultados;
+
+    } catch (error) {
+      console.error('Error al agregar los atractivos:', error);
+      // Manejar el error según sea necesario
+      return [];
+    }
+  }
+  async agregarMunicipioImportacion(municipios: Municipio[]): Promise<any>{
+    const muniRef = collection(this.firestore, 'municipios');
+    try {
+      const promesas = municipios.map(municipio => addDoc(muniRef, municipio));
+      const resultados = await Promise.all(promesas);
+      alert("Se importaron los municipios correctamente!")
+      return resultados;
+
+    } catch (error) {
+      console.error('Error al agregar los municipios:', error);
+      alert('Error al agregar los municipios:');
+      // Manejar el error según sea necesario
+      return [];
+    }
+  }
+  async agregarRutasImportacion(prestadores: PrestadorTuristico[]): Promise<any>{
+    const prestadorRef = collection(this.firestore, 'prestadores');
+    try {
+      const promesas = prestadores.map(prestador => addDoc(prestadorRef, prestador));
+      const resultados = await Promise.all(promesas);
+      alert("Se importaron las importaciones bien importadas")
+      return resultados;
+
+    } catch (error) {
+      console.error('Error al agregar prestadores:', error);
+      // Manejar el error según sea necesario
+      return [];
+    }
+  }
+  async agregarTodoImportacion(prestadores: PrestadorTuristico[]): Promise<any>{
     const prestadorRef = collection(this.firestore, 'prestadores');
     try {
       const promesas = prestadores.map(prestador => addDoc(prestadorRef, prestador));
@@ -248,15 +306,16 @@ export class PrestadoresService {
 
   //? -> Método para eliminar datos de la BD
 
-  async borrarTodosLosDocumentos() {
-    const collectionRef = collection(this.firestore, 'prestadores');
-
+  async borrarTodosLosDocumentos(option:string) {
+    const collectionRef = collection(this.firestore, option);
     const querySnapshot = await getDocs(collectionRef);
 
-    querySnapshot.forEach((doc) => {
-      this.borrarPrestador(doc);
-    });
+    const deletePromises = querySnapshot.docs.map((doc) => deleteDoc(doc.ref));
+    await Promise.all(deletePromises);
+
+    alert("Se borraron todos los documentos");
   }
+
 
   //Delete - D
   //Aquí podemos elegir pasar como parámetro el objeto entero con todos los elementos ó sólo el elemento con el que queremos crear la referencia para borrar

@@ -1,20 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import * as XLSX from 'xlsx';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ModalServiceService } from 'src/app/core/services/modal-service.service';
 import { PrestadorTuristico } from 'src/app/common/place.interface';
 import { PrestadoresService } from 'src/app/core/services/prestadores.service';
 
+
 @Component({
-  selector: 'app-import',
-  templateUrl: './import.component.html',
-  styleUrls: ['./import.component.css'],
-
+  selector: 'app-import-todo',
+  templateUrl: './import-todo.component.html',
+  styleUrls: ['./import-todo.component.css']
 })
-
-export class ImportComponent implements OnInit{
-
-  constructor(private matProgressBarModule: MatProgressBarModule,  private modalService: ModalServiceService,     private prestadoresService: PrestadoresService,) {
+export class ImportTodoComponent {
+  constructor( private MatProgressBarModule: MatProgressBarModule, private modalService: ModalServiceService,     private prestadoresService: PrestadoresService,) {
     this.prestadorTuristico = {
       //id -> Nos lo da firebase
       name: '',
@@ -48,7 +46,7 @@ export class ImportComponent implements OnInit{
   }
 
   closemodal() {
-    this.modalService.setModalsuich(false);//cierra el modal
+    this.modalService.setModalSuichTodo(false);//cierra el modal
    }
 
   ngOnInit(): void {
@@ -63,6 +61,7 @@ export class ImportComponent implements OnInit{
   progress:number = 0;//almacena el progreso de la carga del archivo
   mode='determinate'//modo de la barra de progreso
   value:any=0//valor de la barra de progreso
+
 //* ->-----------------------------------------------------------------------
 
   // ? -> Propiedad para almacenar los archivos antes de cargarlos a la BD
@@ -113,8 +112,6 @@ datocurioso(){
     this.prestarrays.push(this.prestadorTuristico)
   }
 
-  console.log(this.prestarrays)
-  console.log(this.data[0]?.length)
   this.prestadoresService.agregarPrestadoresImportacion(this.prestarrays)
 }
 
@@ -140,7 +137,5 @@ datocurioso(){
       workbook.SheetNames.forEach(sheet => {const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]); this.data.push(data) })//convierte el libro de trabajo en un objeto JSON
     }
 
-  }}
-
-
-
+  }
+}

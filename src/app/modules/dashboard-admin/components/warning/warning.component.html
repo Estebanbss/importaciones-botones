@@ -1,0 +1,45 @@
+<div
+  class="absolute flex justify-center items-center top-0 left-0 right-0 bottom-0 bg-red-900 bg-opacity-75"
+>
+  <div
+    class="relative flex-col justify-center w-[90%] h-[90%] xl:w-[700px] xl:h-[500px] mx-auto bg-white drop-shadow-2xl rounded-lg"
+  >
+
+    <div
+      class="flex flex-col justify-center items-center h-full my-auto gap-5 px-10"
+    >
+      <label class="text-4xl text-red-700 font-black text-center"
+        >¿Seguro que quiere borrar todos los documentos?</label
+      >
+      <label class="text-xl text-red-700 font-light text-center"
+        >Para confirmar escribe: "Quiero borrar todos los documentos"</label
+      >
+      <input
+        class="font-bold text-lg text-red-700 file:bg-red-700 file:text-white file:stroke-none file:border-none file:py-2 file:px-2 file:rounded-sm block w-[85%] md:w-[500px] border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+        id="text"
+        type="text"
+        [(ngModel)]="inputValue"
+      />
+
+      <button
+        (click)="borrartodo()"
+        class="bg-red-700 hover:bg-red-900 text-white font-bold py-2 px-2 rounded text-2xl flex gap-3 disabled:bg-red-900 disabled:text-white-600 disabled:cursor-not-allowed disabled:opacity-50 enabled:bg-red-700 enabled:text-white enabled:hover:bg-red-600"
+        [disabled]="inputValue !== 'Quiero borrar todos los documentos'"
+      >
+        Eliminar todos los documentos
+      </button>
+    </div>
+
+    <button (click)="closemodal()" class="absolute top-5 right-5">
+      <svg
+        class="fill-red-700 rounded-lg stroke-[20]"
+        xmlns="http://www.w3.org/2000/svg"
+        height="30"
+        viewBox="0 -960 960 960"
+        width="30"
+      >
+        <path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z" />
+      </svg>
+    </button>
+  </div>
+</div>

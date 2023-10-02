@@ -6,20 +6,56 @@ import { ModalServiceService } from 'src/app/core/services/modal-service.service
 
 
 
+
 @Component({
   selector: 'app-listado-prestador',
   templateUrl: './listado-prestador.component.html',
   styleUrls: ['./listado-prestador.component.css'],
+
 })
 export class ListadoPrestadorComponent implements OnInit {
   modalsuich!:boolean;
+  modalsuichatrac!:boolean;
+  modalsuichmuni!:boolean;
+  modalsuichrutas!:boolean;
+  modalsuichtodo!:boolean;
+  warning!:boolean;
 
-  borrartodo(){
-    this.prestadoresService.borrarTodosLosDocumentos();
+
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === "Escape") {
+      this.closemodal();
+    }
   }
 
-  openmodal() {
-    this.modalService.setModalsuich(true);
+  closemodal() {
+    this.modalService.setModalSuichPst(false);//cierra el modal
+    this.modalService.setModalSuichMuni(false);//cierra el modal
+    this.modalService.setModalSuichAtrac(false);//cierra el modal
+    this.modalService.setModalSuichRutas(false);//cierra el modal
+    this.modalService.setWarning(false);//cierra el modal
+    this.modalService.setModalSuichTodo(false);//cierra el modal
+   }
+
+
+  openmodalpst() {
+    this.modalService.setModalSuichPst(true);
+  }
+  openmodalmuni() {
+    this.modalService.setModalSuichMuni(true);
+  }
+  openmodalatrac() {
+    this.modalService.setModalSuichAtrac(true);
+  }
+  openmodalrutas() {
+    this.modalService.setModalSuichRutas(true);
+  }
+  openmodalwarning(value: string) {
+    this.modalService.setWarning(true);
+    this.modalService.setValue(value);
+  }
+  openmodaltodo() {
+    this.modalService.setModalSuichTodo(true);
   }
 
   //? -> Propiedad para almacenar el arreglo de objetos que nos va a traer la BD al disparar el método getPrestadores, la utilizamos para Bandear los datos en el html de list y mostrar los datos
@@ -36,9 +72,34 @@ export class ListadoPrestadorComponent implements OnInit {
 
 
   ngOnInit() {
-    this.modalService.modalsuich$.subscribe((value) => {
+     this.modalService.modalsuich$.subscribe((value) => {
       this.modalsuich = value;
     });
+
+    this.modalService.modalsuichatrac$.subscribe((value) => {
+      this.modalsuichatrac = value;
+    });
+
+    this.modalService.modalsuichmuni$.subscribe((value) => {
+      this.modalsuichmuni = value;
+    });
+
+    this.modalService.modalsuichrutas$.subscribe((value) => {
+      this.modalsuichrutas = value;
+    });
+
+    this.modalService.modalsuichtodo$.subscribe((value) => {
+      this.modalsuichtodo = value;
+    });
+
+    this.modalService.modalsuichtodo$.subscribe((value) => {
+      this.modalsuichtodo = value;
+    });
+
+    this.modalService.warning$.subscribe((value) => {
+      this.warning = value;
+    });
+
     //Lo ejecutamos en el método OnInit para que dispare el método getPrestadores y me cargue los datos apenas se cargue el componente. Además de que disparamos el cold Observable para que se actualizen los datos a tiempo real.
     this.getPrestadores();
   }

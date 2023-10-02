@@ -46,6 +46,22 @@ export interface PrestadorTuristico extends Place {
   pagWeb: string;
   correo: string;
   horarioAtencion: string;
+  alojamientoRural?: string;
+  tiendasDeCafé?: string;
+  antojosTípicos?: string;
+  sitioNatural?:string;
+  patrimonioCultural?: string;
+  miradores?:string;
+  parquesNaturales?:string;
+  agenciasDeViajes?:string;
+  centroRecreativo?:string;
+  guíasDeTurismo?:string;
+  aventura?:string;
+  agroYEcoturismo?:string;
+  planesORutas?:string;
+  artesanías?:string;
+  transportes?:string;
+  eventos?:string;
   //pathImage?: PathImage[]; -> Se toma por código
   //meGusta?: number; -> Se toma por código
   //pathImagePortada?: PathImage;
@@ -80,7 +96,7 @@ export interface AtractivoTuristico extends Place {
 export interface Municipio extends Place {
   //id
   //nombre: string;
-  subregion: string;
+  zona: string;
   //descripcion: string;
   poblacion: string;
   gentilicio: string;

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ImportModule } from 'src/app/modules/import/import.module';
+
 
 import { DashboardAdminRoutingModule } from './dashboard-admin-routing.module';
 import { ReactiveFormsModule } from '@angular/forms'; //Formularios Reactivos
@@ -18,6 +18,14 @@ import { EditarMunicipioComponent } from './pages/municipios/editar-municipio/ed
 import { AgregarRutasComponent } from './pages/rutas-turisticas/agregar-rutas/agregar-rutas.component';
 import { EditarRutasComponent } from './pages/rutas-turisticas/editar-rutas/editar-rutas.component';
 import { ListadoPrestadorComponent } from './pages/prestadores-turisticos/listado-prestador/listado-prestador.component';
+import { ImportModule } from './components/import-pst/import-pst.module';
+import { ImportAtractivoModule } from './components/import-atractivo/import-atractivo.module';
+import { ImportMunicipioModule } from './components/import-municipio/import-municipio.module';
+import { ImportRutasModule } from './components/import-rutas/import-rutas.module';
+import { ImportTodoModule } from './components/import-todo/import-todo.module';
+import { WarningModule } from './components/warning/warning.module';
+
+
 
 
 @NgModule({
@@ -38,12 +46,20 @@ import { ListadoPrestadorComponent } from './pages/prestadores-turisticos/listad
 
 
 
+
   ],
   imports: [
     CommonModule,
     DashboardAdminRoutingModule,
     ReactiveFormsModule,
-    ImportModule
+    ImportModule,
+    ImportAtractivoModule,
+    ImportMunicipioModule,
+    ImportRutasModule,
+    ImportTodoModule,
+    WarningModule
+
+
 
   ]
 })
