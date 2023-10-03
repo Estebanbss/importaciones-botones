@@ -38,9 +38,9 @@ export interface PrestadorTuristico extends Place {
   //googleMaps?: string;
   //latitud?: number;
   //longitud?: number;
-  whatsapp: number;
-  celular1: number;
-  celular2: number;
+  whatsapp: any;
+  celular1: any;
+  celular2: any;
   facebook: string;
   instagram: string;
   pagWeb: string;
@@ -60,7 +60,7 @@ export interface PrestadorTuristico extends Place {
   agroYEcoturismo?:string;
   planesORutas?:string;
   artesanías?:string;
-  transportes?:string;
+  transporte?:string;
   eventos?:string;
   //pathImage?: PathImage[]; -> Se toma por código
   //meGusta?: number; -> Se toma por código

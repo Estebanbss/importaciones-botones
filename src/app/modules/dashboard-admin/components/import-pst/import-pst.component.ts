@@ -53,7 +53,7 @@ export class ImportComponent implements OnInit{
       agroYEcoturismo:"",
       planesORutas:"",
       artesanías:"",
-      transportes:"",
+      transporte:"",
       eventos:"",
 
       pathImages: [], // -> lo conseguimos en la inserción de imágenes
@@ -116,9 +116,9 @@ datocurioso(){
       googleMaps: this.data[0][index].googleMaps === undefined  ? '--' : this.data[0][index].googleMaps,
       latitud:this.data[0][index].latitud === undefined  ? '--' : this.data[0][index].latitud,
       longitud:this.data[0][index].longitud === undefined  ? '0' : this.data[0][index].longitud,
-      whatsapp:this.data[0][index].whatsapp === undefined  ? '0' : this.data[0][index].whatsapp,
-      celular1:this.data[0][index].celular1 === undefined  ? '0' : this.data[0][index].celular1,
-      celular2:this.data[0][index].celular2 === undefined  ? '0' : this.data[0][index].celular2,
+      whatsapp:this.data[0][index].whatsapp === undefined  ? '0' : this.procesarValor(this.data[0][index].whatsapp),
+      celular1:this.data[0][index].celular1 === undefined  ? '0' : this.procesarValor(this.data[0][index].celular1),
+      celular2:this.data[0][index].celular2 === undefined  ? '0' : this.procesarValor(this.data[0][index].celular2),
       facebook: this.data[0][index].facebook === undefined  ? '--' : this.data[0][index].facebook,
       instagram: this.data[0][index].instagram === undefined  ? '--' : this.data[0][index].instagram,
       pagWeb: this.data[0][index].pagWeb === undefined  ? '--' : this.data[0][index].pagWeb,
@@ -139,7 +139,7 @@ datocurioso(){
       agroYEcoturismo: this.data[0][index].agroYEcoturismo === undefined  ? '--' : this.data[0][index].agroYEcoturismo,
       planesORutas: this.data[0][index].planesORutas === undefined  ? '--' : this.data[0][index].planesORutas,
       artesanías: this.data[0][index].artesanías === undefined  ? '--' : this.data[0][index].artesanías,
-      transportes: this.data[0][index].transportes === undefined  ? '--' : this.data[0][index].transportes,
+      transporte: this.data[0][index].transporte === undefined  ? '--' : this.data[0][index].transporte,
       eventos: this.data[0][index].eventos === undefined  ? '--' : this.data[0][index].eventos,
 
       pathImages: [], // -> lo conseguimos en la inserción de imágenes
@@ -155,7 +155,21 @@ datocurioso(){
   this.prestadoresService.agregarPrestadoresImportacion(this.prestarrays)
 }
 
+procesarValor(valor: any): number {
+  if (valor === undefined) {
+    return 0;
+  }
 
+  const valorSinEspacios = String(valor).replace(/\s+/g, '');
+
+  const valorComoNumero = parseInt(valorSinEspacios, 10);
+
+  if (!isNaN(valorComoNumero)) {
+    return valorComoNumero;
+  } else {
+    return 0;
+  }
+}
 
 
 //?metodo para subir el archivo
@@ -176,7 +190,6 @@ datocurioso(){
       let workbook = XLSX.read(binaryData, {type: 'binary'});//lo convierte en un libro de trabajo
       workbook.SheetNames.forEach(sheet => {const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]); this.data.push(data) })//convierte el libro de trabajo en un objeto JSON
     }
-
   }
 }
 
