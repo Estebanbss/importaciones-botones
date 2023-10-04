@@ -54,6 +54,15 @@ export class ListadoPrestadorComponent implements OnInit {
     this.modalService.setWarning(true);
     this.modalService.setValue(value);
   }
+
+  openmodalwarningtodo(){
+    this.prestadoresService.borrarTodosLosDocumentos("prestadores")
+    this.prestadoresService.borrarTodosLosDocumentos("atractivos")
+    this.prestadoresService.borrarTodosLosDocumentos("rutas")
+    this.prestadoresService.borrarTodosLosDocumentos("municipios")
+    alert("SE BORRO TODO D:")
+
+  }
   openmodaltodo() {
     this.modalService.setModalSuichTodo(true);
   }

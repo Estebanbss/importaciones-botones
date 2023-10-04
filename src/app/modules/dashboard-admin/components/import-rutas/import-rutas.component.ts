@@ -69,13 +69,13 @@ datocurioso(){
   for (let index = 0; index < this.data[0].length; index++) {
     this.ruta = {
       //id -> Nos lo da firebase
-      name: this.data[0][index].name === undefined  ? '--' : this.data[0][index].name,
-      descripcion: this.data[0][index].descripcion === undefined  ? '--' : this.data[0][index].descripcion,
-      googleMaps: this.data[0][index].googleMaps === undefined  ? '--' : this.data[0][index].googleMaps,
-      latitud: this.data[0][index].latitud === undefined  ? '--' : this.data[0][index].latitud,
-      longitud: this.data[0][index].longitud === undefined  ? '--' : this.data[0][index].longitud,
-      informacionAdicional: this.data[0][index].informacionAdicional === undefined  ? '--' : this.data[0][index].informacionAdicional,
-      agenciaDeViajes: this.data[0][index].agenciaDeViajes === undefined  ? '--' : this.data[0][index].agenciaDeViajes,
+      name: this.data[3][index].name === undefined  ? '--' : this.data[0][index].name,
+      descripcion: this.data[3][index].descripcion === undefined  ? '--' : this.data[0][index].descripcion,
+      googleMaps: this.data[3][index].googleMaps === undefined  ? '--' : this.data[0][index].googleMaps,
+      latitud: this.data[3][index].latitud === undefined  ? 0 : this.data[0][index].latitud,
+      longitud: this.data[3][index].longitud === undefined  ? 0 : this.data[0][index].longitud,
+      informacionAdicional: this.data[3][index].informacionAdicional === undefined  ? '--' : this.data[0][index].informacionAdicional,
+      agenciaDeViajes: this.data[3][index].agenciaDeViajes === undefined  ? '--' : this.data[0][index].agenciaDeViajes,
       pathImages: [], // -> lo conseguimos en la inserción de imágenes
       meGusta: 0, // -> # de Me gustas en la App
       pathImagePortada: { // -> lo conseguimos en la inserción de imágenes

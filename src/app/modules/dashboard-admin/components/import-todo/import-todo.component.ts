@@ -165,6 +165,7 @@ datocurioso(){
   this.prestarrays3=[]
   this.prestarrays4=[]
 
+
   for (let index = 0; index < this.data[0].length; index++) {
     this.prestadorTuristico = {
       //id -> Nos lo da firebase
@@ -177,16 +178,34 @@ datocurioso(){
       direccion: this.data[0][index].direccion === undefined  ? '--' : this.data[0][index].direccion,
       indicacionesAcceso: this.data[0][index].indicacionesAcceso === undefined  ? '--' : this.data[0][index].indicacionesAcceso,
       googleMaps: this.data[0][index].googleMaps === undefined  ? '--' : this.data[0][index].googleMaps,
-      latitud:this.data[0][index].latitud === undefined  ? '--' : this.data[0][index].latitud,
-      longitud:this.data[0][index].longitud === undefined  ? '0' : this.data[0][index].longitud,
-      whatsapp:this.data[0][index].whatsapp === undefined  ? '0' : this.data[0][index].whatsapp,
-      celular1:this.data[0][index].celular1 === undefined  ? '0' : this.data[0][index].celular1,
-      celular2:this.data[0][index].celular2 === undefined  ? '0' : this.data[0][index].celular2,
+      latitud:this.data[0][index].latitud === undefined  ? 0 : this.data[0][index].latitud,
+      longitud:this.data[0][index].longitud === undefined  ? 0 : this.data[0][index].longitud,
+      whatsapp:this.data[0][index].whatsapp === undefined  ? 0 : this.procesarValor(this.data[0][index].whatsapp),
+      celular1:this.data[0][index].celular1 === undefined  ? 0 : this.procesarValor(this.data[0][index].celular1),
+      celular2:this.data[0][index].celular2 === undefined  ? 0 : this.procesarValor(this.data[0][index].celular2),
       facebook: this.data[0][index].facebook === undefined  ? '--' : this.data[0][index].facebook,
       instagram: this.data[0][index].instagram === undefined  ? '--' : this.data[0][index].instagram,
       pagWeb: this.data[0][index].pagWeb === undefined  ? '--' : this.data[0][index].pagWeb,
       correo: this.data[0][index].correo === undefined  ? '--' : this.data[0][index].correo,
       horarioAtencion: this.data[0][index].horarioAtencion === undefined  ? '--' : this.data[0][index].horarioAtencion,
+
+      alojamientoRural: this.data[0][index].alojamientoRural === undefined  ? '--' : this.data[0][index].alojamientoRural,
+      tiendasDeCafé: this.data[0][index].tiendasDeCafé === undefined  ? '--' : this.data[0][index].tiendasDeCafé,
+      antojosTípicos:this.data[0][index].antojosTípicos === undefined  ? '--' : this.data[0][index].antojosTípicos,
+      sitioNatural:this.data[0][index].sitioNatural === undefined  ? '--' : this.data[0][index].sitioNatural,
+      patrimonioCultural: this.data[0][index].patrimonioCultural === undefined  ? '--' : this.data[0][index].patrimonioCultural,
+      miradores: this.data[0][index].miradores === undefined  ? '--' : this.data[0][index].miradores,
+      parquesNaturales: this.data[0][index].parquesNaturales === undefined  ? '--' : this.data[0][index].parquesNaturales,
+      agenciasDeViajes: this.data[0][index].agenciasDeViajes === undefined  ? '--' : this.data[0][index].agenciasDeViajes,
+      centroRecreativo:this.data[0][index].centroRecreativo === undefined  ? '--' : this.data[0][index].centroRecreativo,
+      guíasDeTurismo:this.data[0][index].guíasDeTurismo === undefined  ? '--' : this.data[0][index].guíasDeTurismo,
+      aventura: this.data[0][index].aventura === undefined  ? '--' : this.data[0][index].aventura,
+      agroYEcoturismo: this.data[0][index].agroYEcoturismo === undefined  ? '--' : this.data[0][index].agroYEcoturismo,
+      planesORutas: this.data[0][index].planesORutas === undefined  ? '--' : this.data[0][index].planesORutas,
+      artesanías: this.data[0][index].artesanías === undefined  ? '--' : this.data[0][index].artesanías,
+      transporte: this.data[0][index].transporte === undefined  ? '--' : this.data[0][index].transporte,
+      eventos: this.data[0][index].eventos === undefined  ? '--' : this.data[0][index].eventos,
+
       pathImages: [], // -> lo conseguimos en la inserción de imágenes
       meGusta: 0, // -> # de Me gustas en la App
       pathImagePortada: { // -> lo conseguimos en la inserción de imágenes
@@ -194,7 +213,6 @@ datocurioso(){
         url: ''
       }
     }
-
     this.prestarrays.push(this.prestadorTuristico)
   }
 
@@ -210,8 +228,8 @@ datocurioso(){
       direccionBarrioVereda: this.data[1][index].direccionBarrioVereda === undefined  ? '--' : this.data[1][index].direccionBarrioVereda,
       indicacionesAcceso: this.data[1][index].indicacionesAcceso === undefined  ? '--' : this.data[1][index].indicacionesAcceso,
       googleMaps: this.data[1][index].googleMaps === undefined  ? '--' : this.data[1][index].googleMaps,
-      latitud: this.data[1][index].latitud === undefined  ? '0' : this.data[1][index].latitud,
-      longitud: this.data[1][index].longitud === undefined  ? '0' : this.data[1][index].longitud,
+      latitud: this.data[1][index].latitud === undefined  ? 0 : this.data[1][index].latitud,
+      longitud: this.data[1][index].longitud === undefined  ? 0 : this.data[1][index].longitud,
       actividades: this.data[1][index].actividades === undefined  ? '--' : this.data[1][index].actividades,
       horarioAtencion: this.data[1][index].horarioAtencion === undefined  ? '--' : this.data[1][index].horarioAtencion,
       recomendaciones: this.data[1][index].recomendaciones === undefined  ? '--' : this.data[1][index].recomendaciones,
@@ -239,8 +257,8 @@ datocurioso(){
     zona: this.data[2][index].zona === undefined  ? '--' : this.data[2][index].zona,
     poblacion: this.data[2][index].poblacion === undefined  ? '--' : this.data[2][index].poblacion,
     googleMaps: this.data[2][index].googleMaps === undefined  ? '--' : this.data[2][index].googleMaps,
-    latitud: this.data[2][index].latitud === undefined  ? '0' : this.data[2][index].latitud,
-    longitud: this.data[2][index].longitud === undefined  ? '0' : this.data[2][index].longitud,
+    latitud: this.data[2][index].latitud === undefined  ? 0 : this.data[2][index].latitud,
+    longitud: this.data[2][index].longitud === undefined  ? 0 : this.data[2][index].longitud,
     facebook: this.data[2][index].facebook === undefined  ? '--' : this.data[2][index].facebook,
     twitter: this.data[2][index].twitter === undefined  ? '--' : this.data[2][index].twitter,
     youtube: this.data[2][index].youtube === undefined  ? '--' : this.data[2][index].youtube,
@@ -258,14 +276,14 @@ datocurioso(){
   this.prestarrays3.push(this.municipio)
 }
 
-for (let index = 0; index < this.data[2].length; index++) {
+for (let index = 0; index < this.data[3].length; index++) {
   this.ruta = {
     //id -> Nos lo da firebase
     name: this.data[3][index].name === undefined  ? '--' : this.data[3][index].name,
     descripcion: this.data[3][index].descripcion === undefined  ? '--' : this.data[3][index].descripcion,
     googleMaps: this.data[3][index].googleMaps === undefined  ? '--' : this.data[3][index].googleMaps,
-    latitud: this.data[3][index].latitud === undefined  ? '--' : this.data[3][index].latitud,
-    longitud: this.data[3][index].longitud === undefined  ? '--' : this.data[3][index].longitud,
+    latitud: this.data[3][index].latitud === undefined  ? 0 : this.data[3][index].latitud,
+    longitud: this.data[3][index].longitud === undefined  ? 0: this.data[3][index].longitud,
     informacionAdicional: this.data[3][index].informacionAdicional === undefined  ? '--' : this.data[3][index].informacionAdicional,
     agenciaDeViajes: this.data[3][index].agenciaDeViajes === undefined  ? '--' : this.data[3][index].agenciaDeViajes,
     pathImages: [], // -> lo conseguimos en la inserción de imágenes
@@ -285,7 +303,21 @@ for (let index = 0; index < this.data[2].length; index++) {
   this.prestadoresService.agregarRutasImportacion(this.prestarrays4)
 }
 
+procesarValor(valor: any): number {
+  if (valor === undefined) {
+    return 0;
+  }
 
+  const valorSinEspacios = String(valor).replace(/\s+/g, '');
+
+  const valorComoNumero = parseInt(valorSinEspacios, 10);
+
+  if (!isNaN(valorComoNumero)) {
+    return valorComoNumero;
+  } else {
+    return 0;
+  }
+}
 
 
 //?metodo para subir el archivo

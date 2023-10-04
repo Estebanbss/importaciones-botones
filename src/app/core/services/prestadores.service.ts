@@ -122,9 +122,7 @@ export class PrestadoresService {
     }
   }
 
-  async agregarAtractivoImportacion(
-    atractivos: AtractivoTuristico[]
-  ): Promise<any> {
+  async agregarAtractivoImportacion(atractivos: AtractivoTuristico[] ) : Promise<any> {
     const atractivoRef = collection(this.firestore, 'atractivos');
 
     try {
