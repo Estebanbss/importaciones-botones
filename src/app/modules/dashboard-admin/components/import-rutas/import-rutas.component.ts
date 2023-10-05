@@ -73,7 +73,7 @@ datocurioso(){
       descripcion: this.data[3][index].descripcion === undefined  ? '--' : this.data[0][index].descripcion,
       googleMaps: this.data[3][index].googleMaps === undefined  ? '--' : this.data[0][index].googleMaps,
       latitud: this.data[3][index].latitud === undefined  ? 0 : this.data[0][index].latitud,
-      longitud: this.data[3][index].longitud === undefined  ? 0 : this.data[0][index].longitud,
+      longitud: this.data[3][index].longitud === undefined  ? 0 : (this.data[0][index].longitud)*-1,
       informacionAdicional: this.data[3][index].informacionAdicional === undefined  ? '--' : this.data[0][index].informacionAdicional,
       agenciaDeViajes: this.data[3][index].agenciaDeViajes === undefined  ? '--' : this.data[0][index].agenciaDeViajes,
       pathImages: [], // -> lo conseguimos en la inserción de imágenes

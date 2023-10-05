@@ -102,7 +102,7 @@ export interface Municipio extends Place {
   gentilicio: string;
   clima: string;
   servicios: string;
-  FiestasEventos: string;
+  fiestasEventos: string;
   hechosHistoricos: string;
   sitioWeb: string;
   facebook: string;

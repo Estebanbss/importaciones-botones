@@ -90,7 +90,7 @@ datocurioso(){
        indicacionesAcceso: this.data[0][index].indicacionesAcceso === undefined  ? '--' : this.data[0][index].indicacionesAcceso,
        googleMaps: this.data[0][index].googleMaps === undefined  ? '--' : this.data[0][index].googleMaps,
        latitud: this.data[0][index].latitud === undefined  ? 0 : this.data[0][index].latitud,
-       longitud: this.data[0][index].longitud === undefined  ? 0 : this.data[0][index].longitud,
+       longitud: this.data[0][index].longitud === undefined  ? 0 : (this.data[0][index].longitud)*-1,
        actividades: this.data[0][index].actividades === undefined  ? '--' : this.data[0][index].actividades,
        horarioAtencion: this.data[0][index].horarioAtencion === undefined  ? '--' : this.data[0][index].horarioAtencion,
        recomendaciones: this.data[0][index].recomendaciones === undefined  ? '--' : this.data[0][index].recomendaciones,
